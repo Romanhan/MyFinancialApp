@@ -1,4 +1,4 @@
-package romanhan;
+package romanhan.model;
 
 public class User {
     private String name;
