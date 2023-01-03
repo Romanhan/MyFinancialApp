@@ -40,16 +40,6 @@ public class View {
     private JLabel jLPhones;
     private JLabel jLTotalExpenses;
 
-    private JTextField jTApartment;
-    private JTextField jTCarLeasing;
-    private JTextField jTGas;
-    private JTextField jTBills;
-    private JTextField jTFood;
-    private JTextField jTInternet;
-    private JTextField jTKindergarten;
-    private JTextField jTPhones;
-    private JTextField jTCarInsurance;
-
     Font titleFont = new Font("", Font.BOLD, 20);
     Font secondaryFont = new Font("", Font.PLAIN, 20);
 
@@ -153,7 +143,6 @@ public class View {
         jLTotalExpenses = new JLabel("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
         jLTotalExpenses.setBounds(10, 420, 300, 30);
         jLTotalExpenses.setFont(jLSFont);
-
 
 
         jFrame.add(dateLabel);
