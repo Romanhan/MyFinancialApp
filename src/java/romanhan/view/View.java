@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -52,6 +57,19 @@ public class View {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(700, 520);
         jFrame.setLayout(null);
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try (FileOutputStream fileOut = new FileOutputStream("C:\\tmp\\userData.ser");
+                     ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+                    out.writeObject(user);
+                    out.writeObject(expenses);
+                    out.flush();
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            }
+        });
 
         JLabel dateLabel = new JLabel(getDate());
         dateLabel.setBounds(10, 10, 200, 25);
@@ -131,7 +149,6 @@ public class View {
         jBInternet.setFocusable(false);
         jBInternet.addActionListener(new InternetListener());
 
-
         jLKindergarten = new JLabel("Садик " + expenses.getKindergarten() + "€");
         jLKindergarten.setBounds(10, 330, 300, 30);
         jLKindergarten.setFont(secondaryFont);
@@ -204,6 +221,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private void refreshBudget() {
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
     }
@@ -218,9 +236,11 @@ public class View {
             refreshBudget();
         }
     }
+
     private void refreshTotalExpenses() {
         jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
+
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -231,6 +251,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -241,6 +262,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -251,6 +273,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class BillsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -261,6 +284,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -271,6 +295,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -281,6 +306,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -291,6 +317,7 @@ public class View {
             refreshBudget();
         }
     }
+
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

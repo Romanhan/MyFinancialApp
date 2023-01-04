@@ -2,8 +2,10 @@ package romanhan.controller;
 
 import romanhan.exception.NotEnoughBalance;
 import romanhan.model.User;
+import java.io.Serializable;
 
-public class Expenses {
+public class Expenses implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int apartmentLeasing;
     private int carLeasing;
     private int carInsurance;
