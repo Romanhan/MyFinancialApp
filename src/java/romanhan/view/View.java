@@ -16,9 +16,7 @@ public class View {
     private Expenses expenses;
     private User user;
     private JFrame jFrame;
-    private JPanel jPanel;
 
-    private JButton jBApartment;
     private JButton jBCarLeasing;
     private JButton jBCarInsurance;
     private JButton jBGas;
@@ -40,8 +38,8 @@ public class View {
     private JLabel jLPhones;
     private JLabel jLTotalExpenses;
 
-    Font titleFont = new Font("", Font.BOLD, 20);
-    Font secondaryFont = new Font("", Font.PLAIN, 20);
+    Font titleFont = new Font("Times New Roman", Font.BOLD, 20);
+    Font secondaryFont = new Font("Times New Roman", Font.PLAIN, 20);
 
 
     public View(Expenses expenses, User user) {
@@ -62,7 +60,7 @@ public class View {
 
         JLabel jLabelStart = new JLabel("Расходы:");
         jLabelStart.setBounds(10, 55, 200, 25);
-        Font jLSFont = new Font("", Font.BOLD, 15);
+        Font jLSFont = new Font("Times New Roman", Font.BOLD, 15);
         jLabelStart.setFont(jLSFont);
 
 
@@ -73,14 +71,16 @@ public class View {
 
         JButton jbnButton = new JButton("Пополнить бюджет");
         jbnButton.setBounds(420, 40, 150, 30);
+        jbnButton.setFocusable(false);
         jbnButton.addActionListener(new DepositBalanceListener());
 
 
         jLApartment = new JLabel("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
         jLApartment.setBounds(10, 85, 300, 30);
         jLApartment.setFont(secondaryFont);
-        jBApartment = new JButton("Оплатить");
+        JButton jBApartment = new JButton("Оплатить");
         jBApartment.setBounds(270, 85, 100, 30);
+        jBApartment.setFocusable(false);
         jBApartment.addActionListener(new ApartmentListener());
 
         jLCarLeasing = new JLabel("Лизинг за машину " + expenses.getCarLeasing() + "€");
@@ -88,6 +88,7 @@ public class View {
         jLCarLeasing.setFont(secondaryFont);
         jBCarLeasing = new JButton("Оплатить");
         jBCarLeasing.setBounds(270, 120, 100, 30);
+        jBCarLeasing.setFocusable(false);
         jBCarLeasing.addActionListener(new CarLeasingListener());
 
         jLCarInsurance = new JLabel("Страховка на машины " + expenses.getCarInsurance() + "€");
@@ -95,6 +96,7 @@ public class View {
         jLCarInsurance.setFont(secondaryFont);
         jBCarInsurance = new JButton("Оплатить");
         jBCarInsurance.setBounds(270, 155, 100, 30);
+        jBCarInsurance.setFocusable(false);
         jBCarInsurance.addActionListener(new CarInsuranceListener());
 
         jLGas = new JLabel("Бензин " + expenses.getGas() + "€");
@@ -102,6 +104,7 @@ public class View {
         jLGas.setFont(secondaryFont);
         jBGas = new JButton("Оплатить");
         jBGas.setBounds(270, 190, 100, 30);
+        jBGas.setFocusable(false);
         jBGas.addActionListener(new GasListener());
 
         jLBills = new JLabel("Счета " + expenses.getBills() + "€");
@@ -109,6 +112,7 @@ public class View {
         jLBills.setFont(secondaryFont);
         jBBills = new JButton("Оплатить");
         jBBills.setBounds(270, 225, 100, 30);
+        jBBills.setFocusable(false);
         jBBills.addActionListener(new BillsListener());
 
         jLFood = new JLabel("Еда " + expenses.getFood() + "€");
@@ -116,6 +120,7 @@ public class View {
         jLFood.setFont(secondaryFont);
         jBFood = new JButton("Оплатить");
         jBFood.setBounds(270, 260, 100, 30);
+        jBFood.setFocusable(false);
         jBFood.addActionListener(new FoodListener());
 
         jLInternet = new JLabel("Интернет " + expenses.getInternet() + "€");
@@ -123,6 +128,7 @@ public class View {
         jLInternet.setFont(secondaryFont);
         jBInternet = new JButton("Оплатить");
         jBInternet.setBounds(270, 295, 100, 30);
+        jBInternet.setFocusable(false);
         jBInternet.addActionListener(new InternetListener());
 
 
@@ -131,6 +137,7 @@ public class View {
         jLKindergarten.setFont(secondaryFont);
         jBKindergarten = new JButton("Оплатить");
         jBKindergarten.setBounds(270, 330, 100, 30);
+        jBKindergarten.setFocusable(false);
         jBKindergarten.addActionListener(new KindergartenListener());
 
         jLPhones = new JLabel("Телефоны " + expenses.getPhones() + "€");
@@ -138,6 +145,7 @@ public class View {
         jLPhones.setFont(secondaryFont);
         jBPhones = new JButton("Оплатить");
         jBPhones.setBounds(270, 365, 100, 30);
+        jBPhones.setFocusable(false);
         jBPhones.addActionListener(new PhonesListener());
 
         jLTotalExpenses = new JLabel("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
@@ -186,10 +194,6 @@ public class View {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return simpleDateFormat.format(date);
-    }
-
-    private JButton getjBApartment() {
-        return null;
     }
 
     private class DepositBalanceListener implements ActionListener {
