@@ -29,4 +29,8 @@ public class User implements Serializable {
     public void deposit(int amount) {
         this.budget += amount;
     }
+
+    public void clearBudget() {
+        setBudget(0);
+    }
 }

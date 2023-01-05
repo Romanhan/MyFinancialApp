@@ -5,13 +5,8 @@ import romanhan.model.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.awt.event.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,6 +40,11 @@ public class View {
     private JLabel jLKindergarten;
     private JLabel jLPhones;
     private JLabel jLTotalExpenses;
+
+    private JMenuBar jMenuBar = new JMenuBar();
+    private JMenu jMenu;
+    private JMenuItem jMenuItem;
+    private JMenuItem jMIClear;
 
     Font titleFont = new Font("Times New Roman", Font.BOLD, 20);
     Font secondaryFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -81,11 +81,25 @@ public class View {
                 }
             }
         });
+        //Adding menu bar
+        jMenu = new JMenu("Menu");
+
+        //For future updates
+//        jMenuItem = new JMenuItem("Future function");
+//        jMenuItem.addActionListener(new JMenuButtonListener());
+
+        jMIClear = new JMenuItem("Стереть все данные");
+        jMIClear.addActionListener(new JMIClearListener());
+
+ //       jMenu.add(jMenuItem);
+        jMenu.add(jMIClear);
+        jMenuBar.add(jMenu);
+
+
         //Creating labels and buttons
         JLabel dateLabel = new JLabel(getDate());
         dateLabel.setBounds(10, 10, 200, 25);
         dateLabel.setFont(titleFont);
-
 
         JLabel jLabelStart = new JLabel("Расходы:");
         jLabelStart.setBounds(10, 55, 200, 25);
@@ -180,6 +194,7 @@ public class View {
         jLTotalExpenses.setFont(jLSFont);
 
         //Adding labels and buttons to the frame
+        jFrame.setJMenuBar(jMenuBar); //Add JMenuBar to frame
         jFrame.add(dateLabel);
         jFrame.add(jLabelStart);
         jFrame.add(jIncomeLabel);
@@ -239,6 +254,18 @@ public class View {
     private void refreshTotalExpenses() {
         jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
+    private void refreshAllExpenses() {
+        jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
+        jLCarLeasing.setText("Лизинг за машину " + expenses.getCarLeasing() + "€");
+        jLCarInsurance.setText("Страховка на машины " + expenses.getCarInsurance() + "€");
+        jLGas.setText("Бензин " + expenses.getGas() + "€");
+        jLBills.setText("Счета " + expenses.getBills() + "€");
+        jLFood.setText("Еда " + expenses.getFood() + "€");
+        jLInternet.setText("Интернет " + expenses.getInternet() + "€");
+        jLKindergarten.setText("Садик " + expenses.getKindergarten() + "€");
+        jLPhones.setText("Телефоны " + expenses.getPhones() + "€");
+    }
+
     //Listeners for buttons
     private class ApartmentListener implements ActionListener {
         @Override
@@ -338,4 +365,23 @@ public class View {
             refreshBudget();
         }
     }
+
+    //JMenu Listeners
+    private class JMIClearListener implements ActionListener { //JMenu button clears all user data
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           expenses.clearAllData();
+           user.clearBudget();
+           refreshBudget();
+           refreshTotalExpenses();
+           refreshAllExpenses();
+        }
+    }
+    //For future updates
+    /*private class JMenuButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("button pressed");
+        }
+    }*/
 }
