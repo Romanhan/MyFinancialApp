@@ -15,6 +15,7 @@ public class Main {
         if (file.exists()) {
             User user1;
             Expenses expenses1;
+
             try (FileInputStream fileIn = new FileInputStream("C:\\tmp\\userData.ser");
                  ObjectInputStream in = new ObjectInputStream(fileIn)) {
                 user1 = (User) in.readObject();

@@ -12,6 +12,9 @@ import java.awt.event.WindowEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,10 +60,18 @@ public class View {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(700, 520);
         jFrame.setLayout(null);
-        jFrame.addWindowListener(new WindowAdapter() {
+        jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
-            public void windowClosing(WindowEvent e) {
-                try (FileOutputStream fileOut = new FileOutputStream("C:\\tmp\\userData.ser");
+            public void windowClosing(WindowEvent e) { //Check if file path exists
+                Path filePath = Paths.get("C:\\tmp\\");
+                if (!Files.exists(filePath)) {
+                    try {
+                        Files.createDirectory(filePath);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                try (FileOutputStream fileOut = new FileOutputStream("C:\\tmp\\userData.ser"); // Save data to file
                      ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                     out.writeObject(user);
                     out.writeObject(expenses);
@@ -70,7 +81,7 @@ public class View {
                 }
             }
         });
-
+        //Creating labels and buttons
         JLabel dateLabel = new JLabel(getDate());
         dateLabel.setBounds(10, 10, 200, 25);
         dateLabel.setFont(titleFont);
@@ -80,7 +91,6 @@ public class View {
         jLabelStart.setBounds(10, 55, 200, 25);
         Font jLSFont = new Font("Times New Roman", Font.BOLD, 15);
         jLabelStart.setFont(jLSFont);
-
 
         jIncomeLabel = new JLabel();
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
@@ -169,7 +179,7 @@ public class View {
         jLTotalExpenses.setBounds(10, 420, 300, 30);
         jLTotalExpenses.setFont(jLSFont);
 
-
+        //Adding labels and buttons to the frame
         jFrame.add(dateLabel);
         jFrame.add(jLabelStart);
         jFrame.add(jIncomeLabel);
