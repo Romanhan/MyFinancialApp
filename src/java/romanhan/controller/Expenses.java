@@ -159,8 +159,8 @@ public class Expenses implements Serializable {
             } else {
                 user.setBudget(user.getBudget() - amount);
             }
-        } catch (NotEnoughBalance e) {
-            throw new RuntimeException(e);
+        } catch (NotEnoughBalance ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

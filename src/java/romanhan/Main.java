@@ -11,7 +11,7 @@ public class Main {
         User user = new User();
         Expenses expenses = new Expenses(user);
 
-        File file = new File("C:\\tmp\\userData.ser");
+        File file = new File("C:\\tmp\\userData.ser"); //If file exist, use saved before data
         if (file.exists()) {
             User user1;
             Expenses expenses1;
@@ -20,12 +20,8 @@ public class Main {
                  ObjectInputStream in = new ObjectInputStream(fileIn)) {
                 user1 = (User) in.readObject();
                 expenses1 = (Expenses) in.readObject();
-            } catch (IOException i) {
-                i.printStackTrace();
-                return;
-            } catch (ClassNotFoundException c) {
-                System.out.println("UserData class not found");
-                c.printStackTrace();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
                 return;
             }
             View view = new View(expenses1, user1);
