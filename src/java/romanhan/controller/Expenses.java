@@ -163,4 +163,17 @@ public class Expenses implements Serializable {
             throw new RuntimeException(ex);
         }
     }
+
+    public void clearAllData() {
+        setApartmentLeasing(0);
+        setCarLeasing(0);
+        setCarInsurance(0);
+        setGas(0);
+        setBills(0);
+        setFood(0);
+        setInternet(0);
+        setKindergarten(0);
+        setPhones(0);
+        setTotalExpensesForMonth(0);
+    }
 }
