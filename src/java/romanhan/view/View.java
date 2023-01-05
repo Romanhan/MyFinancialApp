@@ -76,8 +76,8 @@ public class View {
                     out.writeObject(user);
                     out.writeObject(expenses);
                     out.flush();
-                } catch (IOException i) {
-                    i.printStackTrace();
+                } catch (IOException ex) {
+                   ex.printStackTrace();
                 }
             }
         });
@@ -222,7 +222,7 @@ public class View {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return simpleDateFormat.format(date);
     }
-
+    //Add balance
     private class DepositBalanceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -231,11 +231,15 @@ public class View {
             refreshBudget();
         }
     }
-
+    //Refresh data after updating amount
     private void refreshBudget() {
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
     }
 
+    private void refreshTotalExpenses() {
+        jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
+    }
+    //Listeners for buttons
     private class ApartmentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -245,10 +249,6 @@ public class View {
             refreshTotalExpenses();
             refreshBudget();
         }
-    }
-
-    private void refreshTotalExpenses() {
-        jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
 
     private class CarLeasingListener implements ActionListener {
