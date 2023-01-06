@@ -58,8 +58,9 @@ public class View {
     public void addComponentsToPane() {
         jFrame = new JFrame("My financial App");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(700, 520);
+        jFrame.setSize(750, 520);
         jFrame.setLayout(null);
+        jFrame.setLocationRelativeTo(null); //Set JFrame to appear on centered of the screen
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
             public void windowClosing(WindowEvent e) { //Check if file path exists
@@ -77,7 +78,7 @@ public class View {
                     out.writeObject(expenses);
                     out.flush();
                 } catch (IOException ex) {
-                   ex.printStackTrace();
+                    ex.printStackTrace();
                 }
             }
         });
@@ -85,13 +86,13 @@ public class View {
         jMenu = new JMenu("Menu");
 
         //For future updates
-//        jMenuItem = new JMenuItem("Future function");
-//        jMenuItem.addActionListener(new JMenuButtonListener());
+        /*      jMenuItem = new JMenuItem("Future function");
+        jMenuItem.addActionListener(new JMenuButtonListener());*/
 
         jMIClear = new JMenuItem("Стереть все данные");
         jMIClear.addActionListener(new JMIClearListener());
 
- //       jMenu.add(jMenuItem);
+        //       jMenu.add(jMenuItem);
         jMenu.add(jMIClear);
         jMenuBar.add(jMenu);
 
@@ -108,11 +109,11 @@ public class View {
 
         jIncomeLabel = new JLabel();
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
-        jIncomeLabel.setBounds(400, 10, 300, 25);
+        jIncomeLabel.setBounds(450, 10, 300, 25);
         jIncomeLabel.setFont(titleFont);
 
         JButton jbnButton = new JButton("Пополнить бюджет");
-        jbnButton.setBounds(420, 40, 150, 30);
+        jbnButton.setBounds(470, 40, 150, 30);
         jbnButton.setFocusable(false);
         jbnButton.addActionListener(new DepositBalanceListener());
 
@@ -237,6 +238,7 @@ public class View {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return simpleDateFormat.format(date);
     }
+
     //Add balance
     private class DepositBalanceListener implements ActionListener {
         @Override
@@ -246,6 +248,7 @@ public class View {
             refreshBudget();
         }
     }
+
     //Refresh data after updating amount
     private void refreshBudget() {
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
@@ -254,6 +257,7 @@ public class View {
     private void refreshTotalExpenses() {
         jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
+
     private void refreshAllExpenses() {
         jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
         jLCarLeasing.setText("Лизинг за машину " + expenses.getCarLeasing() + "€");
@@ -370,11 +374,11 @@ public class View {
     private class JMIClearListener implements ActionListener { //JMenu button clears all user data
         @Override
         public void actionPerformed(ActionEvent e) {
-           expenses.clearAllData();
-           user.clearBudget();
-           refreshBudget();
-           refreshTotalExpenses();
-           refreshAllExpenses();
+            expenses.clearAllData();
+            user.clearBudget();
+            refreshBudget();
+            refreshTotalExpenses();
+            refreshAllExpenses();
         }
     }
     //For future updates
