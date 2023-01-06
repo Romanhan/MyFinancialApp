@@ -54,17 +54,16 @@ public class View {
     Font titleFont = new Font("Times New Roman", Font.BOLD, 20);
     Font secondaryFont = new Font("Times New Roman", Font.PLAIN, 20);
 
-
     public View(Expenses expenses, User user) {
         this.expenses = expenses;
         this.user = user;
     }
-
     public void addComponentsToPane() {
         jFrame = new JFrame("My financial App");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(750, 650);
         jFrame.setLayout(null);
+        jFrame.setResizable(false); //Disable ability to resize frame
         jFrame.setLocationRelativeTo(null); //Set JFrame to appear on centered of the screen
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
@@ -101,7 +100,6 @@ public class View {
         jMenu.add(jMIClear);
         jMenuBar.add(jMenu);
 
-
         //Creating labels and buttons
         JLabel dateLabel = new JLabel(getDate());
         dateLabel.setBounds(10, 10, 200, 25);
@@ -121,7 +119,6 @@ public class View {
         jbnButton.setBounds(470, 40, 150, 30);
         jbnButton.setFocusable(false);
         jbnButton.addActionListener(new DepositBalanceListener());
-
 
         jLApartment = new JLabel("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
         jLApartment.setBounds(10, 85, 300, 30);
@@ -270,13 +267,11 @@ public class View {
 
         jFrame.setVisible(true);
     }
-
     private String getDate() {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return simpleDateFormat.format(date);
     }
-
     //Add balance
     private class DepositBalanceListener implements ActionListener {
         @Override
@@ -286,16 +281,13 @@ public class View {
             refreshBudget();
         }
     }
-
     //Refresh data after updating amount
     private void refreshBudget() {
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
     }
-
     private void refreshTotalExpenses() {
         jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
-
     private void refreshAllExpenses() {
         jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
         jLApartmentBill.setText("Счёт за квартиру " + expenses.getApartmentBill() + "€");
@@ -310,7 +302,6 @@ public class View {
         jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
         jLFood.setText("Еда " + expenses.getFood() + "€");
     }
-
     //Listeners for buttons
     private class ApartmentListener implements ActionListener {
         @Override
@@ -322,7 +313,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class ApartmentBillListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -333,7 +323,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -344,7 +333,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class CarCascoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -355,7 +343,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -366,7 +353,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -377,7 +363,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class ElectricityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -388,7 +373,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -399,7 +383,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -410,7 +393,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -421,7 +403,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -432,7 +413,6 @@ public class View {
             refreshBudget();
         }
     }
-
     private class DepositListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -443,7 +423,6 @@ public class View {
             refreshBudget();
         }
     }
-
     //JMenu Listeners
     private class JMIClearListener implements ActionListener { //JMenu button clears all user data
         @Override

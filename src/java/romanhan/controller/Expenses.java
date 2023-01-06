@@ -30,50 +30,39 @@ public class Expenses implements Serializable {
     public void setApartmentLeasing(int apartmentLeasing) {
         this.apartmentLeasing = apartmentLeasing;
     }
-
     public void setApartmentBill(int apartmentBill) {
         this.apartmentBill = apartmentBill;
     }
-
     public void setCarLeasing(int carLeasing) {
         this.carLeasing = carLeasing;
     }
     public void setCarCasco(int carCasco) {
         this.carCasco = carCasco;
     }
-
     public void setCarInsurance(int carInsurance) {
         this.carInsurance = carInsurance;
     }
-
     public void setGas(int gas) {
         this.gas = gas;
     }
-
     public void setElectricity(int bills) {
         this.electricity = bills;
     }
-
     public void setFood(int food) {
         this.food = food;
     }
-
     public void setInternet(int internet) {
         this.internet = internet;
     }
-
     public void setKindergarten(int kindergarten) {
         this.kindergarten = kindergarten;
     }
-
     public void setPhones(int phones) {
         this.phones = phones;
     }
-
     public void setDeposit(int deposit) {
         this.deposit = deposit;
     }
-
     public void setTotalExpensesForMonth(int totalExpensesForMonth) {
         this.totalExpensesForMonth = totalExpensesForMonth;
     }
@@ -81,49 +70,39 @@ public class Expenses implements Serializable {
     public int getApartmentLeasing() {
         return apartmentLeasing;
     }
-
     public int getApartmentBill() {
         return apartmentBill;
     }
-
     public int getCarLeasing() {
         return carLeasing;
     }
     public int getCarCasco() {
         return carCasco;
     }
-
     public int getCarInsurance() {
         return carInsurance;
     }
-
     public int getGas() {
         return gas;
     }
-
     public int getElectricity() {
         return electricity;
     }
-
     public int getFood() {
         return food;
     }
-
     public int getInternet() {
         return internet;
     }
-
     public int getKindergarten() {
         return kindergarten;
     }
-
     public int getPhones() {
         return phones;
     }
     public int getDeposit() {
         return deposit;
     }
-
     public int getTotalExpensesForMonth() {
         return totalExpensesForMonth;
     }
@@ -192,7 +171,6 @@ public class Expenses implements Serializable {
                 break;
         }
     }
-
     public void withdrawalBudget(int amount, JFrame jFrame) {
         try {
             if (user.getBudget() - amount < 0) {
@@ -204,7 +182,6 @@ public class Expenses implements Serializable {
             throw new RuntimeException(ex);
         }
     }
-
     public void clearAllData() {
         setApartmentLeasing(0);
         setApartmentBill(0);
