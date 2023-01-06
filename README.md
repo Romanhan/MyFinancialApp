@@ -7,5 +7,6 @@ Working version is ready, and now my family and I are starting to use it and col
 
 Version 0.1
 Can't save information after closing the app.
+
 Version 0.2
 Saving data to file.
