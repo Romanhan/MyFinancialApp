@@ -16,34 +16,39 @@ import java.util.Date;
 import static romanhan.controller.Withdrawal.*;
 
 public class View {
-    private Expenses expenses;
-    private User user;
+    private final Expenses expenses;
+    private final User user;
     private JFrame jFrame;
 
     private JButton jBCarLeasing;
+    private JButton jBCarCasco;
     private JButton jBCarInsurance;
     private JButton jBGas;
-    private JButton jBBills;
+    private JButton jBElectricity;
     private JButton jBFood;
     private JButton jBInternet;
     private JButton jBKindergarten;
     private JButton jBPhones;
+    private JButton jBDeposit;
 
     private JLabel jIncomeLabel;
     private JLabel jLApartment;
+    private JLabel jLApartmentBill;
     private JLabel jLCarLeasing;
     private JLabel jLCarInsurance;
+    private JLabel jLCarCasco;
     private JLabel jLGas;
-    private JLabel jLBills;
+    private JLabel jLElectricity;
     private JLabel jLFood;
     private JLabel jLInternet;
     private JLabel jLKindergarten;
     private JLabel jLPhones;
+    private JLabel jLDeposit;
     private JLabel jLTotalExpenses;
 
-    private JMenuBar jMenuBar = new JMenuBar();
+    private final JMenuBar jMenuBar = new JMenuBar();
     private JMenu jMenu;
-    private JMenuItem jMenuItem;
+    //private JMenuItem jMenuItem;
     private JMenuItem jMIClear;
 
     Font titleFont = new Font("Times New Roman", Font.BOLD, 20);
@@ -58,7 +63,7 @@ public class View {
     public void addComponentsToPane() {
         jFrame = new JFrame("My financial App");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(750, 520);
+        jFrame.setSize(750, 650);
         jFrame.setLayout(null);
         jFrame.setLocationRelativeTo(null); //Set JFrame to appear on centered of the screen
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
@@ -126,72 +131,96 @@ public class View {
         jBApartment.setFocusable(false);
         jBApartment.addActionListener(new ApartmentListener());
 
+        jLApartmentBill = new JLabel("Счёт за квартиру " + expenses.getApartmentBill() + "€");
+        jLApartmentBill.setBounds(10, 120, 300, 30);
+        jLApartmentBill.setFont(secondaryFont);
+        JButton jBApartmentBill = new JButton("Оплатить");
+        jBApartmentBill.setBounds(270, 120, 100, 30);
+        jBApartmentBill.setFocusable(false);
+        jBApartmentBill.addActionListener(new ApartmentBillListener());
+
         jLCarLeasing = new JLabel("Лизинг за машину " + expenses.getCarLeasing() + "€");
-        jLCarLeasing.setBounds(10, 120, 300, 30);
+        jLCarLeasing.setBounds(10, 155, 300, 30);
         jLCarLeasing.setFont(secondaryFont);
         jBCarLeasing = new JButton("Оплатить");
-        jBCarLeasing.setBounds(270, 120, 100, 30);
+        jBCarLeasing.setBounds(270, 155, 100, 30);
         jBCarLeasing.setFocusable(false);
         jBCarLeasing.addActionListener(new CarLeasingListener());
 
-        jLCarInsurance = new JLabel("Страховка на машины " + expenses.getCarInsurance() + "€");
-        jLCarInsurance.setBounds(10, 155, 300, 30);
+        jLCarCasco = new JLabel("Каско машины " + expenses.getCarLeasing() + "€");
+        jLCarCasco.setBounds(10, 190, 300, 30);
+        jLCarCasco.setFont(secondaryFont);
+        jBCarCasco = new JButton("Оплатить");
+        jBCarCasco.setBounds(270, 190, 100, 30);
+        jBCarCasco.setFocusable(false);
+        jBCarCasco.addActionListener(new CarCascoListener());
+
+        jLCarInsurance = new JLabel("Страховка машин " + expenses.getCarInsurance() + "€");
+        jLCarInsurance.setBounds(10, 225, 300, 30);
         jLCarInsurance.setFont(secondaryFont);
         jBCarInsurance = new JButton("Оплатить");
-        jBCarInsurance.setBounds(270, 155, 100, 30);
+        jBCarInsurance.setBounds(270, 225, 100, 30);
         jBCarInsurance.setFocusable(false);
         jBCarInsurance.addActionListener(new CarInsuranceListener());
 
         jLGas = new JLabel("Бензин " + expenses.getGas() + "€");
-        jLGas.setBounds(10, 190, 300, 30);
+        jLGas.setBounds(10, 260, 300, 30);
         jLGas.setFont(secondaryFont);
         jBGas = new JButton("Оплатить");
-        jBGas.setBounds(270, 190, 100, 30);
+        jBGas.setBounds(270, 260, 100, 30);
         jBGas.setFocusable(false);
         jBGas.addActionListener(new GasListener());
 
-        jLBills = new JLabel("Счета " + expenses.getBills() + "€");
-        jLBills.setBounds(10, 225, 300, 30);
-        jLBills.setFont(secondaryFont);
-        jBBills = new JButton("Оплатить");
-        jBBills.setBounds(270, 225, 100, 30);
-        jBBills.setFocusable(false);
-        jBBills.addActionListener(new BillsListener());
-
-        jLFood = new JLabel("Еда " + expenses.getFood() + "€");
-        jLFood.setBounds(10, 260, 300, 30);
-        jLFood.setFont(secondaryFont);
-        jBFood = new JButton("Оплатить");
-        jBFood.setBounds(270, 260, 100, 30);
-        jBFood.setFocusable(false);
-        jBFood.addActionListener(new FoodListener());
+        jLElectricity = new JLabel("Электричество " + expenses.getElectricity() + "€");
+        jLElectricity.setBounds(10, 295, 300, 30);
+        jLElectricity.setFont(secondaryFont);
+        jBElectricity = new JButton("Оплатить");
+        jBElectricity.setBounds(270, 295, 100, 30);
+        jBElectricity.setFocusable(false);
+        jBElectricity.addActionListener(new ElectricityListener());
 
         jLInternet = new JLabel("Интернет " + expenses.getInternet() + "€");
-        jLInternet.setBounds(10, 295, 300, 30);
+        jLInternet.setBounds(10, 330, 300, 30);
         jLInternet.setFont(secondaryFont);
         jBInternet = new JButton("Оплатить");
-        jBInternet.setBounds(270, 295, 100, 30);
+        jBInternet.setBounds(270, 330, 100, 30);
         jBInternet.setFocusable(false);
         jBInternet.addActionListener(new InternetListener());
 
         jLKindergarten = new JLabel("Садик " + expenses.getKindergarten() + "€");
-        jLKindergarten.setBounds(10, 330, 300, 30);
+        jLKindergarten.setBounds(10, 365, 300, 30);
         jLKindergarten.setFont(secondaryFont);
         jBKindergarten = new JButton("Оплатить");
-        jBKindergarten.setBounds(270, 330, 100, 30);
+        jBKindergarten.setBounds(270, 365, 100, 30);
         jBKindergarten.setFocusable(false);
         jBKindergarten.addActionListener(new KindergartenListener());
 
         jLPhones = new JLabel("Телефоны " + expenses.getPhones() + "€");
-        jLPhones.setBounds(10, 365, 300, 30);
+        jLPhones.setBounds(10, 400, 300, 30);
         jLPhones.setFont(secondaryFont);
         jBPhones = new JButton("Оплатить");
-        jBPhones.setBounds(270, 365, 100, 30);
+        jBPhones.setBounds(270, 400, 100, 30);
         jBPhones.setFocusable(false);
         jBPhones.addActionListener(new PhonesListener());
 
+        jLDeposit = new JLabel("Никитин депозит " + expenses.getDeposit() + "€");
+        jLDeposit.setBounds(10, 435, 300, 30);
+        jLDeposit.setFont(secondaryFont);
+        jBDeposit = new JButton("Оплатить");
+        jBDeposit.setBounds(270, 435, 100, 30);
+        jBDeposit.setFocusable(false);
+        jBDeposit.addActionListener(new DepositListener());
+
+        jLFood = new JLabel("Еда " + expenses.getFood() + "€");
+        jLFood.setBounds(10, 470, 300, 30);
+        jLFood.setFont(secondaryFont);
+        jBFood = new JButton("Оплатить");
+        jBFood.setBounds(270, 470, 100, 30);
+        jBFood.setFocusable(false);
+        jBFood.addActionListener(new FoodListener());
+
         jLTotalExpenses = new JLabel("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
-        jLTotalExpenses.setBounds(10, 420, 300, 30);
+        jLTotalExpenses.setBounds(10, 540, 300, 30);
         jLTotalExpenses.setFont(jLSFont);
 
         //Adding labels and buttons to the frame
@@ -203,8 +232,14 @@ public class View {
         jFrame.add(jLApartment);
         jFrame.add(jBApartment);
 
+        jFrame.add(jLApartmentBill);
+        jFrame.add(jBApartmentBill);
+
         jFrame.add(jLCarLeasing);
         jFrame.add(jBCarLeasing);
+
+        jFrame.add(jLCarCasco);
+        jFrame.add(jBCarCasco);
 
         jFrame.add(jLCarInsurance);
         jFrame.add(jBCarInsurance);
@@ -212,11 +247,8 @@ public class View {
         jFrame.add(jLGas);
         jFrame.add(jBGas);
 
-        jFrame.add(jLBills);
-        jFrame.add(jBBills);
-
-        jFrame.add(jLFood);
-        jFrame.add(jBFood);
+        jFrame.add(jLElectricity);
+        jFrame.add(jBElectricity);
 
         jFrame.add(jLInternet);
         jFrame.add(jBInternet);
@@ -226,6 +258,12 @@ public class View {
 
         jFrame.add(jLPhones);
         jFrame.add(jBPhones);
+
+        jFrame.add(jLDeposit);
+        jFrame.add(jBDeposit);
+
+        jFrame.add(jLFood);
+        jFrame.add(jBFood);
 
         jFrame.add(jLTotalExpenses);
         jFrame.add(jbnButton);
@@ -243,7 +281,7 @@ public class View {
     private class DepositBalanceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму добавить?"));
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму добавить?"));
             user.deposit(enteredAmount);
             refreshBudget();
         }
@@ -260,23 +298,37 @@ public class View {
 
     private void refreshAllExpenses() {
         jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
+        jLApartmentBill.setText("Счёт за квартиру " + expenses.getApartmentBill() + "€");
         jLCarLeasing.setText("Лизинг за машину " + expenses.getCarLeasing() + "€");
-        jLCarInsurance.setText("Страховка на машины " + expenses.getCarInsurance() + "€");
+        jLCarCasco.setText("Каско машины " + expenses.getCarLeasing() + "€");
+        jLCarInsurance.setText("Страховка машины " + expenses.getCarInsurance() + "€");
         jLGas.setText("Бензин " + expenses.getGas() + "€");
-        jLBills.setText("Счета " + expenses.getBills() + "€");
-        jLFood.setText("Еда " + expenses.getFood() + "€");
+        jLElectricity.setText("Электричество " + expenses.getElectricity() + "€");
         jLInternet.setText("Интернет " + expenses.getInternet() + "€");
         jLKindergarten.setText("Садик " + expenses.getKindergarten() + "€");
         jLPhones.setText("Телефоны " + expenses.getPhones() + "€");
+        jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
+        jLFood.setText("Еда " + expenses.getFood() + "€");
     }
 
     //Listeners for buttons
     private class ApartmentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, APARTMENT_LEASING);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, APARTMENT_LEASING, jFrame);
             jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
+            refreshTotalExpenses();
+            refreshBudget();
+        }
+    }
+
+    private class ApartmentBillListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, APARTMENT_BILL, jFrame);
+            jLApartmentBill.setText("Счёт за квартиру " + expenses.getApartmentBill() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
@@ -285,9 +337,20 @@ public class View {
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, CAR_LEASING);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, CAR_LEASING, jFrame);
             jLCarLeasing.setText("Лизинг за машину " + expenses.getCarLeasing() + "€");
+            refreshTotalExpenses();
+            refreshBudget();
+        }
+    }
+
+    private class CarCascoListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, CAR_CASCO, jFrame);
+            jLCarCasco.setText("Каско машины " + expenses.getCarCasco() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
@@ -296,9 +359,9 @@ public class View {
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, CAR_INSURANCE);
-            jLCarInsurance.setText("Страховка на машины " + expenses.getCarInsurance() + "€");
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, CAR_INSURANCE, jFrame);
+            jLCarInsurance.setText("Страховка машин " + expenses.getCarInsurance() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
@@ -307,20 +370,20 @@ public class View {
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, GAS);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, GAS, jFrame);
             jLGas.setText("Бензин " + expenses.getGas() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
 
-    private class BillsListener implements ActionListener {
+    private class ElectricityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, BILLS);
-            jLBills.setText("Счета " + expenses.getBills() + "€");
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, ELECTRICITY, jFrame);
+            jLElectricity.setText("Электричество " + expenses.getElectricity() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
@@ -329,8 +392,8 @@ public class View {
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, FOOD);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, FOOD, jFrame);
             jLFood.setText("Еда " + expenses.getFood() + "€");
             refreshTotalExpenses();
             refreshBudget();
@@ -340,8 +403,8 @@ public class View {
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, INTERNET);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, INTERNET, jFrame);
             jLInternet.setText("Интернет " + expenses.getInternet() + "€");
             refreshTotalExpenses();
             refreshBudget();
@@ -351,8 +414,8 @@ public class View {
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, KINDERGARTEN);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, KINDERGARTEN, jFrame);
             jLKindergarten.setText("Садик " + expenses.getKindergarten() + "€");
             refreshTotalExpenses();
             refreshBudget();
@@ -362,9 +425,20 @@ public class View {
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog("Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, PHONES);
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, PHONES, jFrame);
             jLPhones.setText("Телефоны " + expenses.getPhones() + "€");
+            refreshTotalExpenses();
+            refreshBudget();
+        }
+    }
+
+    private class DepositListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            expenses.withdrawal(enteredAmount, DEPOSIT, jFrame);
+            jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
