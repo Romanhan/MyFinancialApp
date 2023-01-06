@@ -4,8 +4,8 @@ It's Java project that a wrote from scratch, created UI on Swing. I tried to dev
 Here I used GitHub to work with my project, add branches, modify and marge, used two computers to get experience of real life project.
 Working version is ready, and now my family and I are starting to use it and collect feedback.
 
+
 Version 0.1
 Can't save information after closing the app.
-
 Version 0.2
 Saving data to file.
