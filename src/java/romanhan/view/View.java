@@ -52,8 +52,8 @@ public class View {
     //private JMenuItem jMenuItem;
     private JMenuItem jMIClear;
 
-    Font titleFont = new Font("Times New Roman", Font.BOLD, 20);
-    Font secondaryFont = new Font("Times New Roman", Font.PLAIN, 20);
+    Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
+    Font secondaryFont = new Font("Segoe UI", Font.PLAIN, 20);
 
     public View(Expenses expenses, User user) {
         this.expenses = expenses;
