@@ -1,6 +1,7 @@
 package romanhan.view;
 
 import romanhan.controller.Expenses;
+import romanhan.exception.NumberOnlyException;
 import romanhan.model.User;
 
 import javax.swing.*;
@@ -10,15 +11,15 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import static romanhan.Main.currentMonthAndYear;
+import static romanhan.controller.Expenses.checkEnteredValue;
 import static romanhan.controller.Withdrawal.*;
 
 public class View {
     private final Expenses expenses;
     private final User user;
-    private JFrame jFrame;
+    public static JFrame jFrame;
 
     private JButton jBCarLeasing;
     private JButton jBCarCasco;
@@ -58,6 +59,7 @@ public class View {
         this.expenses = expenses;
         this.user = user;
     }
+
     public void addComponentsToPane() {
         jFrame = new JFrame("My financial App");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +70,7 @@ public class View {
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
             public void windowClosing(WindowEvent e) { //Check if file path exists
-                Path filePath = Paths.get("C:\\tmp\\");
+                Path filePath = Paths.get("C:\\MyFinancialApp\\");
                 if (!Files.exists(filePath)) {
                     try {
                         Files.createDirectory(filePath);
@@ -76,7 +78,7 @@ public class View {
                         throw new RuntimeException(ex);
                     }
                 }
-                try (FileOutputStream fileOut = new FileOutputStream("C:\\tmp\\userData.ser"); // Save data to file
+                try (FileOutputStream fileOut = new FileOutputStream("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser"); // Save data to file
                      ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                     out.writeObject(user);
                     out.writeObject(expenses);
@@ -101,7 +103,7 @@ public class View {
         jMenuBar.add(jMenu);
 
         //Creating labels and buttons
-        JLabel dateLabel = new JLabel(getDate());
+        JLabel dateLabel = new JLabel(currentMonthAndYear());
         dateLabel.setBounds(10, 10, 200, 25);
         dateLabel.setFont(titleFont);
 
@@ -144,7 +146,7 @@ public class View {
         jBCarLeasing.setFocusable(false);
         jBCarLeasing.addActionListener(new CarLeasingListener());
 
-        jLCarCasco = new JLabel("Каско машины " + expenses.getCarLeasing() + "€");
+        jLCarCasco = new JLabel("Каско машины " + expenses.getCarCasco() + "€");
         jLCarCasco.setBounds(10, 190, 300, 30);
         jLCarCasco.setFont(secondaryFont);
         jBCarCasco = new JButton("Оплатить");
@@ -267,27 +269,31 @@ public class View {
 
         jFrame.setVisible(true);
     }
-    private String getDate() {
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        return simpleDateFormat.format(date);
-    }
+
     //Add balance
     private class DepositBalanceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму добавить?"));
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму добавить?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
             user.deposit(enteredAmount);
             refreshBudget();
         }
     }
+
     //Refresh data after updating amount
     private void refreshBudget() {
         jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
     }
+
     private void refreshTotalExpenses() {
         jLTotalExpenses.setText("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
     }
+
     private void refreshAllExpenses() {
         jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
         jLApartmentBill.setText("Счёт за квартиру " + expenses.getApartmentBill() + "€");
@@ -302,127 +308,200 @@ public class View {
         jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
         jLFood.setText("Еда " + expenses.getFood() + "€");
     }
+
     //Listeners for buttons
     private class ApartmentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, APARTMENT_LEASING, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, APARTMENT_LEASING);
             jLApartment.setText("Лизинг за квартиру " + expenses.getApartmentLeasing() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class ApartmentBillListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, APARTMENT_BILL, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, APARTMENT_BILL);
             jLApartmentBill.setText("Счёт за квартиру " + expenses.getApartmentBill() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, CAR_LEASING, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, CAR_LEASING);
             jLCarLeasing.setText("Лизинг за машину " + expenses.getCarLeasing() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class CarCascoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, CAR_CASCO, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, CAR_CASCO);
             jLCarCasco.setText("Каско машины " + expenses.getCarCasco() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, CAR_INSURANCE, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, CAR_INSURANCE);
             jLCarInsurance.setText("Страховка машин " + expenses.getCarInsurance() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, GAS, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, GAS);
             jLGas.setText("Бензин " + expenses.getGas() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class ElectricityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, ELECTRICITY, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, ELECTRICITY);
             jLElectricity.setText("Электричество " + expenses.getElectricity() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, FOOD, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, FOOD);
             jLFood.setText("Еда " + expenses.getFood() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, INTERNET, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, INTERNET);
             jLInternet.setText("Интернет " + expenses.getInternet() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, KINDERGARTEN, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, KINDERGARTEN);
             jLKindergarten.setText("Садик " + expenses.getKindergarten() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, PHONES, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, PHONES);
             jLPhones.setText("Телефоны " + expenses.getPhones() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     private class DepositListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            expenses.withdrawal(enteredAmount, DEPOSIT, jFrame);
+            int enteredAmount;
+            try {
+                enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            } catch (NumberOnlyException ex) {
+                throw new RuntimeException(ex);
+            }
+            expenses.withdrawal(enteredAmount, DEPOSIT);
             jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
             refreshTotalExpenses();
             refreshBudget();
         }
     }
+
     //JMenu Listeners
     private class JMIClearListener implements ActionListener { //JMenu button clears all user data
         @Override

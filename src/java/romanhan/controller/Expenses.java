@@ -1,9 +1,10 @@
 package romanhan.controller;
 
-import romanhan.exception.NotEnoughBalance;
+import romanhan.exception.NotEnoughBalanceException;
+import romanhan.exception.NumberOnlyException;
 import romanhan.model.User;
+import romanhan.view.View;
 
-import javax.swing.*;
 import java.io.Serializable;
 
 public class Expenses implements Serializable {
@@ -30,39 +31,51 @@ public class Expenses implements Serializable {
     public void setApartmentLeasing(int apartmentLeasing) {
         this.apartmentLeasing = apartmentLeasing;
     }
+
     public void setApartmentBill(int apartmentBill) {
         this.apartmentBill = apartmentBill;
     }
+
     public void setCarLeasing(int carLeasing) {
         this.carLeasing = carLeasing;
     }
+
     public void setCarCasco(int carCasco) {
         this.carCasco = carCasco;
     }
+
     public void setCarInsurance(int carInsurance) {
         this.carInsurance = carInsurance;
     }
+
     public void setGas(int gas) {
         this.gas = gas;
     }
+
     public void setElectricity(int bills) {
         this.electricity = bills;
     }
+
     public void setFood(int food) {
         this.food = food;
     }
+
     public void setInternet(int internet) {
         this.internet = internet;
     }
+
     public void setKindergarten(int kindergarten) {
         this.kindergarten = kindergarten;
     }
+
     public void setPhones(int phones) {
         this.phones = phones;
     }
+
     public void setDeposit(int deposit) {
         this.deposit = deposit;
     }
+
     public void setTotalExpensesForMonth(int totalExpensesForMonth) {
         this.totalExpensesForMonth = totalExpensesForMonth;
     }
@@ -70,118 +83,132 @@ public class Expenses implements Serializable {
     public int getApartmentLeasing() {
         return apartmentLeasing;
     }
+
     public int getApartmentBill() {
         return apartmentBill;
     }
+
     public int getCarLeasing() {
         return carLeasing;
     }
+
     public int getCarCasco() {
         return carCasco;
     }
+
     public int getCarInsurance() {
         return carInsurance;
     }
+
     public int getGas() {
         return gas;
     }
+
     public int getElectricity() {
         return electricity;
     }
+
     public int getFood() {
         return food;
     }
+
     public int getInternet() {
         return internet;
     }
+
     public int getKindergarten() {
         return kindergarten;
     }
+
     public int getPhones() {
         return phones;
     }
+
     public int getDeposit() {
         return deposit;
     }
+
     public int getTotalExpensesForMonth() {
         return totalExpensesForMonth;
     }
 
-    public void withdrawal(int amount, Withdrawal withdrawalType, JFrame jFrame) {
+    public void withdrawal(int amount, Withdrawal withdrawalType) {
         switch (withdrawalType) {
             case APARTMENT_LEASING:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 apartmentLeasing += amount;
                 totalExpensesForMonth += amount;
                 break;
             case APARTMENT_BILL:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 apartmentBill += amount;
                 totalExpensesForMonth += amount;
                 break;
             case CAR_LEASING:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 carLeasing += amount;
                 totalExpensesForMonth += amount;
                 break;
             case CAR_CASCO:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 carCasco += amount;
                 totalExpensesForMonth += amount;
                 break;
             case CAR_INSURANCE:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 carInsurance += amount;
                 totalExpensesForMonth += amount;
                 break;
             case GAS:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 gas += amount;
                 totalExpensesForMonth += amount;
                 break;
             case ELECTRICITY:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 electricity += amount;
                 totalExpensesForMonth += amount;
                 break;
             case FOOD:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 food += amount;
                 totalExpensesForMonth += amount;
                 break;
             case INTERNET:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 internet += amount;
                 totalExpensesForMonth += amount;
                 break;
             case KINDERGARTEN:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 kindergarten += amount;
                 totalExpensesForMonth += amount;
                 break;
             case PHONES:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 phones += amount;
                 totalExpensesForMonth += amount;
                 break;
             case DEPOSIT:
-                withdrawalBudget(amount, jFrame);
+                withdrawalBudget(amount);
                 deposit += amount;
                 totalExpensesForMonth += amount;
                 break;
         }
     }
-    public void withdrawalBudget(int amount, JFrame jFrame) {
+
+    public void withdrawalBudget(int amount) {
         try {
             if (user.getBudget() - amount < 0) {
-                throw new NotEnoughBalance(jFrame);
+                throw new NotEnoughBalanceException(View.jFrame);
             } else {
                 user.setBudget(user.getBudget() - amount);
             }
-        } catch (NotEnoughBalance ex) {
+        } catch (NotEnoughBalanceException ex) {
             throw new RuntimeException(ex);
         }
     }
+
     public void clearAllData() {
         setApartmentLeasing(0);
         setApartmentBill(0);
@@ -196,5 +223,20 @@ public class Expenses implements Serializable {
         setDeposit(0);
         setFood(0);
         setTotalExpensesForMonth(0);
+    }
+
+    // Check if entered value is a number
+    public static int checkEnteredValue(String value) throws NumberOnlyException {
+        int resultValue;
+        try {
+            if (value.equals("")) {
+                return 0;
+            } else {
+                resultValue = Integer.parseInt(value);
+            }
+        } catch (NumberFormatException ex) {
+            throw new NumberOnlyException(View.jFrame);
+        }
+        return resultValue;
     }
 }

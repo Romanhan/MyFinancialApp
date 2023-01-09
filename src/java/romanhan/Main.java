@@ -5,18 +5,19 @@ import romanhan.model.User;
 import romanhan.view.View;
 
 import java.io.*;
+import java.util.Calendar;
 
 public class Main {
     public static void main(String[] args) {
         User user = new User();
         Expenses expenses = new Expenses(user);
 
-        File file = new File("C:\\tmp\\userData.ser"); //If file exist, use saved before data
+        File file = new File("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser"); //If file exist, use saved before data
         if (file.exists()) {
             User user1;
             Expenses expenses1;
 
-            try (FileInputStream fileIn = new FileInputStream("C:\\tmp\\userData.ser");
+            try (FileInputStream fileIn = new FileInputStream("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser");
                  ObjectInputStream in = new ObjectInputStream(fileIn)) {
                 user1 = (User) in.readObject();
                 expenses1 = (Expenses) in.readObject();
@@ -30,5 +31,13 @@ public class Main {
             View view = new View(expenses, user);
             view.addComponentsToPane();
         }
+    }
+
+    public static String currentMonthAndYear() {
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthNames[cal.get(Calendar.MONTH)];
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentMonth + " " + currentYear;
     }
 }
