@@ -10,3 +10,6 @@ Can't save information after closing the app.
 
 Version 0.2
 Saving data to file.
+
+Version 0.2.1
+Saving data to separate files for each month.
