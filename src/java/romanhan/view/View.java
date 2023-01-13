@@ -1,16 +1,12 @@
 package romanhan.view;
 
+import romanhan.H2Database;
 import romanhan.controller.Expenses;
 import romanhan.exception.NumberOnlyException;
-import romanhan.model.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static romanhan.Main.currentMonthAndYear;
 import static romanhan.controller.Expenses.checkEnteredValue;
@@ -18,7 +14,6 @@ import static romanhan.controller.Withdrawal.*;
 
 public class View {
     private final Expenses expenses;
-    private final User user;
     public static JFrame jFrame;
 
     private JButton jBCarLeasing;
@@ -55,9 +50,8 @@ public class View {
     Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
     Font secondaryFont = new Font("Segoe UI", Font.PLAIN, 20);
 
-    public View(Expenses expenses, User user) {
+    public View(Expenses expenses) {
         this.expenses = expenses;
-        this.user = user;
     }
 
     public void addComponentsToPane() {
@@ -70,7 +64,10 @@ public class View {
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
             public void windowClosing(WindowEvent e) { //Check if file path exists
-                Path filePath = Paths.get("C:\\MyFinancialApp\\");
+
+                //Work with file
+
+                /*Path filePath = Paths.get("C:\\MyFinancialApp\\");
                 if (!Files.exists(filePath)) {
                     try {
                         Files.createDirectory(filePath);
@@ -85,7 +82,12 @@ public class View {
                     out.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                }
+                }*/
+
+                //Work with databases
+
+                //MySQLDatabase.saveToDatabase(expenses);
+                H2Database.saveToDatabase(expenses);
             }
         });
         //Adding menu bar
@@ -113,7 +115,7 @@ public class View {
         jLabelStart.setFont(jLSFont);
 
         jIncomeLabel = new JLabel();
-        jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
+        jIncomeLabel.setText("Бюджет на месяц " + expenses.getBudget() + "€");
         jIncomeLabel.setBounds(450, 10, 300, 25);
         jIncomeLabel.setFont(titleFont);
 
@@ -280,14 +282,14 @@ public class View {
             } catch (NumberOnlyException ex) {
                 throw new RuntimeException(ex);
             }
-            user.deposit(enteredAmount);
+            expenses.deposit(enteredAmount);
             refreshBudget();
         }
     }
 
     //Refresh data after updating amount
     private void refreshBudget() {
-        jIncomeLabel.setText("Бюджет на месяц " + user.getBudget() + "€");
+        jIncomeLabel.setText("Бюджет на месяц " + expenses.getBudget() + "€");
     }
 
     private void refreshTotalExpenses() {
@@ -507,7 +509,7 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             expenses.clearAllData();
-            user.clearBudget();
+            expenses.clearBudget();
             refreshBudget();
             refreshTotalExpenses();
             refreshAllExpenses();
