@@ -13,3 +13,6 @@ Saving data to file.
 
 Version 0.2.1
 Saving data to separate files for each month.
+
+Version 1.0
+Added database to save user data.

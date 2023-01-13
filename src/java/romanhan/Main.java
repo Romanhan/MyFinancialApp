@@ -4,15 +4,32 @@ import romanhan.controller.Expenses;
 import romanhan.model.User;
 import romanhan.view.View;
 
-import java.io.*;
 import java.util.Calendar;
+
 
 public class Main {
     public static void main(String[] args) {
         User user = new User();
         Expenses expenses = new Expenses(user);
 
-        File file = new File("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser"); //If file exist, use saved before data
+        //MySQLDatabase.startWithDatabase(expenses);
+        H2Database.startWithDatabase(expenses);
+
+        View view = new View(expenses);
+        view.addComponentsToPane();
+    }
+
+    public static String currentMonthAndYear() {
+        String[] monthNames = {"Январь", "Февраль", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthNames[cal.get(Calendar.MONTH)];
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentMonth + " " + currentYear;
+    }
+ /*
+ // Start program from file
+
+ File file = new File("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser"); //If file exist, use saved before data
         if (file.exists()) {
             User user1;
             Expenses expenses1;
@@ -31,13 +48,5 @@ public class Main {
             View view = new View(expenses, user);
             view.addComponentsToPane();
         }
-    }
-
-    public static String currentMonthAndYear() {
-        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        Calendar cal = Calendar.getInstance();
-        String currentMonth = monthNames[cal.get(Calendar.MONTH)];
-        int currentYear = cal.get(Calendar.YEAR);
-        return currentMonth + " " + currentYear;
-    }
+  */
 }
