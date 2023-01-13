@@ -26,7 +26,6 @@ public class H2Database {
     public static void startWithDatabase(Expenses expenses) {
         try (Statement statement = connectToDatabase().createStatement()) {
             try { // If database not exists, create
-
                 System.out.println("Creating database...");
                 String createConnection = "CREATE TABLE my_financial_app (current_month INT, user_budget INT, apartment_leasing INT, apartment_bill INT, " +
                         "car_leasing INT, car_casco INT, car_insurance INT, gas INT, electricity INT, internet INT, kindergarten INT, " +
