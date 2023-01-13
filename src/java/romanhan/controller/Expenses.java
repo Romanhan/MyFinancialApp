@@ -24,6 +24,24 @@ public class Expenses implements Serializable {
     private int totalExpensesForMonth;
     private final User user;
 
+    //User getter and setter
+    public void setBudget(int amount) {
+        user.setBudget(amount);
+    }
+
+    public void deposit(int amount) {
+        user.setBudget(user.getBudget() + amount);
+    }
+
+    public int getBudget() {
+        return user.getBudget();
+    }
+
+    public void clearBudget() {
+        user.clearBudget();
+    }
+
+    //Expenses constructor, getter and setter
     public Expenses(User user) {
         this.user = user;
     }
