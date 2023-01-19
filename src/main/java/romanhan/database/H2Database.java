@@ -1,4 +1,4 @@
-package romanhan;
+package romanhan.database;
 
 import romanhan.controller.Expenses;
 
@@ -11,26 +11,15 @@ public class H2Database {
         return cal.get(Calendar.MONTH);
     }
 
-    public static Connection connectToDatabase() {
-        Connection connection;
-        try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-        } catch (SQLException | ClassNotFoundException exception) {
-            System.err.println("SQL Connect exception : " + exception);
-            throw new RuntimeException(exception);
-        }
-        return connection;
-    }
-
     public static void startWithDatabase(Expenses expenses) {
-        try (Statement statement = connectToDatabase().createStatement()) {
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+             Statement statement = connection.createStatement()) {
             try { // If database not exists, create
                 System.out.println("Creating database...");
-                String createConnection = "CREATE TABLE my_financial_app (current_month INT, user_budget INT, apartment_leasing INT, apartment_bill INT, " +
+                String createTable = "CREATE TABLE my_financial_app (current_month INT, user_budget INT, apartment_leasing INT, apartment_bill INT, " +
                         "car_leasing INT, car_casco INT, car_insurance INT, gas INT, electricity INT, internet INT, kindergarten INT, " +
                         "phones INT, deposit INT, food INT, total_expenses INT)";
-                statement.execute(createConnection);
+                statement.execute(createTable);
                 System.out.println("Database created.");
                 int currentMonth = getCurrentMonth();
                 String month = "INSERT INTO my_financial_app (current_month) VALUES (" + currentMonth + ")";
@@ -59,16 +48,12 @@ public class H2Database {
             }
         } catch (SQLException exception) {
             System.err.println("SQLException : " + exception);
-            try {
-                connectToDatabase().close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
     public static void saveToDatabase(Expenses expenses) {
-        try (Statement statement = connectToDatabase().createStatement()) {
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+             Statement statement = connection.createStatement()) {
             int month = getCurrentMonth();
 
             String query = "UPDATE my_financial_app SET user_budget = " + expenses.getBudget() + " WHERE current_month = " + month;
@@ -100,13 +85,8 @@ public class H2Database {
             query = "UPDATE my_financial_app SET total_expenses = " + expenses.getTotalExpensesForMonth() + " WHERE current_month = " + month;
             statement.executeUpdate(query);
             System.out.println("Data saved.");
-        } catch (SQLException e) {
-            System.err.println("SQL Save data Exception : " + e);
-            try {
-                connectToDatabase().close();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+        } catch (SQLException ex) {
+            System.err.println("SQL Save data Exception : " + ex);
         }
     }
 }

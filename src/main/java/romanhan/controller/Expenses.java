@@ -8,7 +8,7 @@ import romanhan.view.View;
 import java.io.Serializable;
 
 public class Expenses implements Serializable {
-    private static final long serialVersionUID = 1L;
+    // private static final long serialVersionUID = 1L;
     private int apartmentLeasing;
     private int apartmentBill;
     private int carLeasing;
@@ -30,7 +30,7 @@ public class Expenses implements Serializable {
     }
 
     public void deposit(int amount) {
-        user.setBudget(user.getBudget() + amount);
+        user.deposit(amount);
     }
 
     public int getBudget() {
@@ -222,8 +222,8 @@ public class Expenses implements Serializable {
             } else {
                 user.setBudget(user.getBudget() - amount);
             }
-        } catch (NotEnoughBalanceException ex) {
-            throw new RuntimeException(ex);
+        } catch (NotEnoughBalanceException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -241,10 +241,11 @@ public class Expenses implements Serializable {
         setDeposit(0);
         setFood(0);
         setTotalExpensesForMonth(0);
+        clearBudget();
     }
 
     // Check if entered value is a number
-    public static int checkEnteredValue(String value) throws NumberOnlyException {
+    public static int checkEnteredValue(String value) {
         int resultValue;
         try {
             if (value.equals("")) {
