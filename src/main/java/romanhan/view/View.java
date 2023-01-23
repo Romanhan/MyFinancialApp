@@ -8,9 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static romanhan.Main.currentMonthAndYear;
 import static romanhan.controller.Expenses.checkEnteredValue;
 import static romanhan.controller.Withdrawal.*;
+import static romanhan.database.H2Database.*;
 
 public class View {
     private final Expenses expenses;
@@ -44,7 +44,7 @@ public class View {
 
     private final JMenuBar jMenuBar = new JMenuBar();
     private JMenu jMenu;
-    //private JMenuItem jMenuItem;
+    private JMenuItem jMIHistory;
     private JMenuItem jMIClear;
 
     Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
@@ -92,15 +92,14 @@ public class View {
         });
         //Adding menu bar
         jMenu = new JMenu("Menu");
+        jMIHistory = new JMenuItem("Смотреть историю затрат");
 
-        //For future updates
-        /*      jMenuItem = new JMenuItem("Future function");
-        jMenuItem.addActionListener(new JMenuButtonListener());*/
+        jMIHistory.addActionListener(new JMIHistoryListener());
 
         jMIClear = new JMenuItem("Стереть все данные");
         jMIClear.addActionListener(new JMIClearListener());
 
-        //       jMenu.add(jMenuItem);
+        jMenu.add(jMIHistory);
         jMenu.add(jMIClear);
         jMenuBar.add(jMenu);
 
@@ -486,11 +485,12 @@ public class View {
             refreshAllExpenses();
         }
     }
+
     //For future updates
-    /*private class JMenuButtonListener implements ActionListener {
+    private class JMIHistoryListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("button pressed");
+            readFromDatabase();
         }
-    }*/
+    }
 }
