@@ -61,7 +61,8 @@ public class H2Database {
                     }
                 }
             }
-        } catch (SQLException exception) {
+        } catch (
+                SQLException exception) {
             System.err.println("SQLException : " + exception);
         }
     }
