@@ -20,8 +20,16 @@ public class H2Database {
         return currentMonth + " " + currentYear;
     }
 
+    public static Connection getConnection() {
+        try {
+           return DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+        } catch (SQLException e) {
+            throw new RuntimeException("Can not create connection", e);
+        }
+    }
+
     public static void startWithDatabase(Expenses expenses) {
-        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             try { // If database not exists, create
                 System.out.println("Creating database...");
@@ -41,34 +49,34 @@ public class H2Database {
                     System.out.println("New month Inserted");
                 } catch (SQLException ex) { // If not, reading current month
                     System.out.println("Reading data from database...");
-                    String startStatement = "SELECT * FROM my_financial_app WHERE current_month = '" + currentMonthAndYear() + "'";
-                    ResultSet resultSet = statement.executeQuery(startStatement);
-                    while (resultSet.next()) {
-                        expenses.setBudget(resultSet.getInt("user_budget"));
-                        expenses.setApartmentLeasing(resultSet.getInt("apartment_leasing"));
-                        expenses.setApartmentBill(resultSet.getInt("apartment_bill"));
-                        expenses.setCarLeasing(resultSet.getInt("car_leasing"));
-                        expenses.setCarCasco(resultSet.getInt("car_casco"));
-                        expenses.setCarInsurance(resultSet.getInt("car_insurance"));
-                        expenses.setGas(resultSet.getInt("gas"));
-                        expenses.setElectricity(resultSet.getInt("electricity"));
-                        expenses.setInternet(resultSet.getInt("internet"));
-                        expenses.setKindergarten(resultSet.getInt("kindergarten"));
-                        expenses.setPhones(resultSet.getInt("phones"));
-                        expenses.setDeposit(resultSet.getInt("deposit"));
-                        expenses.setFood(resultSet.getInt("food"));
-                        expenses.setTotalExpensesForMonth(resultSet.getInt("total_expenses"));
+                    String readFromDatabase = "SELECT * FROM my_financial_app WHERE current_month = '" + currentMonthAndYear() + "'";
+                    ResultSet rs = statement.executeQuery(readFromDatabase);
+                    while (rs.next()) {
+                        expenses.setBudget(rs.getInt("user_budget"));
+                        expenses.setApartmentLeasing(rs.getInt("apartment_leasing"));
+                        expenses.setApartmentBill(rs.getInt("apartment_bill"));
+                        expenses.setCarLeasing(rs.getInt("car_leasing"));
+                        expenses.setCarCasco(rs.getInt("car_casco"));
+                        expenses.setCarInsurance(rs.getInt("car_insurance"));
+                        expenses.setGas(rs.getInt("gas"));
+                        expenses.setElectricity(rs.getInt("electricity"));
+                        expenses.setInternet(rs.getInt("internet"));
+                        expenses.setKindergarten(rs.getInt("kindergarten"));
+                        expenses.setPhones(rs.getInt("phones"));
+                        expenses.setDeposit(rs.getInt("deposit"));
+                        expenses.setFood(rs.getInt("food"));
+                        expenses.setTotalExpensesForMonth(rs.getInt("total_expenses"));
                     }
+                    rs.close();
                 }
             }
-        } catch (
-                SQLException exception) {
+        } catch (SQLException exception) {
             System.err.println("SQLException : " + exception);
         }
     }
 
     public static void saveToDatabase(Expenses expenses) {
-        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             String query = "UPDATE my_financial_app SET user_budget = " + expenses.getBudget() + " WHERE current_month = '" + currentMonthAndYear() + "'";
             statement.executeUpdate(query);
@@ -144,7 +152,7 @@ public class H2Database {
         String currentMonthAndYear, apartmantLeasing, apartmentBill, carLeasing, carCasco, carInsurance, gas,
                 electricity, internet, kindergarten, phones, deposit, food, totalExpenses;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             String sqlRequest = "SELECT * FROM my_financial_app";
             ResultSet rs = statement.executeQuery(sqlRequest);
@@ -166,6 +174,7 @@ public class H2Database {
                 tableModel.addRow(new Object[]{currentMonthAndYear, apartmantLeasing, apartmentBill, carLeasing, carCasco, carInsurance,
                         gas, electricity, internet, kindergarten, phones, deposit, food, totalExpenses});
             }
+            rs.close();
         } catch (SQLException ex) {
             System.err.println("SQLException : " + ex);
         }
