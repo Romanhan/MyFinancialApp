@@ -5,9 +5,6 @@ import romanhan.database.H2Database;
 import romanhan.model.User;
 import romanhan.view.View;
 
-import java.util.Calendar;
-
-
 public class Main {
     public static void main(String[] args) {
         User user = new User();
@@ -19,13 +16,6 @@ public class Main {
         view.addComponentsToPane();
     }
 
-    public static String currentMonthAndYear() {
-        String[] monthNames = {"Январь", "Февраль", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        Calendar cal = Calendar.getInstance();
-        String currentMonth = monthNames[cal.get(Calendar.MONTH)];
-        int currentYear = cal.get(Calendar.YEAR);
-        return currentMonth + " " + currentYear;
-    }
  /*
  // Start program from file
 
