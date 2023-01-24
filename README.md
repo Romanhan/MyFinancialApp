@@ -5,7 +5,7 @@ Here I used GitHub to work with my project, add branches, modify and marge, used
 Working version is ready, and now I'm starting to use it and collect feedback.
 
 What I used on this project:
-UI is on Swing. Database is H2 embedded. JUnit to test. Maven for load dependencies. 
+UI is on Swing. Database is H2 embedded. JUnit to test and Maven.
 
 Version 0.1
 Can't save information after closing the app.
