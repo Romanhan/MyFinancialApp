@@ -12,5 +12,6 @@ public enum Withdrawal {
     INTERNET,
     KINDERGARTEN,
     PHONES,
-    DEPOSIT
+    DEPOSIT,
+    OTHER_EXPENSES
 }

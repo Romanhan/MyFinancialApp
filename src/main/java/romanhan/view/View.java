@@ -5,6 +5,7 @@ import romanhan.controller.Expenses;
 import romanhan.exception.NumberOnlyException;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -15,17 +16,6 @@ import static romanhan.database.H2Database.*;
 public class View {
     private final Expenses expenses;
     public static JFrame jFrame;
-
-    private JButton jBCarLeasing;
-    private JButton jBCarCasco;
-    private JButton jBCarInsurance;
-    private JButton jBGas;
-    private JButton jBElectricity;
-    private JButton jBFood;
-    private JButton jBInternet;
-    private JButton jBKindergarten;
-    private JButton jBPhones;
-    private JButton jBDeposit;
 
     private JLabel jIncomeLabel;
     private JLabel jLApartment;
@@ -40,12 +30,10 @@ public class View {
     private JLabel jLKindergarten;
     private JLabel jLPhones;
     private JLabel jLDeposit;
+    private JLabel jLOtherExpenses;
     private JLabel jLTotalExpenses;
 
     private final JMenuBar jMenuBar = new JMenuBar();
-    private JMenu jMenu;
-    private JMenuItem jMIHistory;
-    private JMenuItem jMIClear;
 
     Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
     Font secondaryFont = new Font("Segoe UI", Font.PLAIN, 20);
@@ -57,7 +45,7 @@ public class View {
     public void addComponentsToPane() {
         jFrame = new JFrame("My financial App");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(750, 650);
+        jFrame.setSize(750, 685);
         jFrame.setLayout(null);
         jFrame.setResizable(false); //Disable ability to resize frame
         jFrame.setLocationRelativeTo(null); //Set JFrame to appear on centered of the screen
@@ -91,12 +79,12 @@ public class View {
             }
         });
         //Adding menu bar
-        jMenu = new JMenu("Menu");
-        jMIHistory = new JMenuItem("Смотреть историю затрат");
+        JMenu jMenu = new JMenu("Menu");
+        JMenuItem jMIHistory = new JMenuItem("Смотреть историю затрат");
 
         jMIHistory.addActionListener(new JMIHistoryListener());
 
-        jMIClear = new JMenuItem("Стереть все данные");
+        JMenuItem jMIClear = new JMenuItem("Стереть все данные");
         jMIClear.addActionListener(new JMIClearListener());
 
         jMenu.add(jMIHistory);
@@ -142,7 +130,7 @@ public class View {
         jLCarLeasing = new JLabel("Лизинг за машину " + expenses.getCarLeasing() + "€");
         jLCarLeasing.setBounds(10, 155, 300, 30);
         jLCarLeasing.setFont(secondaryFont);
-        jBCarLeasing = new JButton("Оплатить");
+        JButton jBCarLeasing = new JButton("Оплатить");
         jBCarLeasing.setBounds(270, 155, 100, 30);
         jBCarLeasing.setFocusable(false);
         jBCarLeasing.addActionListener(new CarLeasingListener());
@@ -150,7 +138,7 @@ public class View {
         jLCarCasco = new JLabel("Каско машины " + expenses.getCarCasco() + "€");
         jLCarCasco.setBounds(10, 190, 300, 30);
         jLCarCasco.setFont(secondaryFont);
-        jBCarCasco = new JButton("Оплатить");
+        JButton jBCarCasco = new JButton("Оплатить");
         jBCarCasco.setBounds(270, 190, 100, 30);
         jBCarCasco.setFocusable(false);
         jBCarCasco.addActionListener(new CarCascoListener());
@@ -158,7 +146,7 @@ public class View {
         jLCarInsurance = new JLabel("Страховка машин " + expenses.getCarInsurance() + "€");
         jLCarInsurance.setBounds(10, 225, 300, 30);
         jLCarInsurance.setFont(secondaryFont);
-        jBCarInsurance = new JButton("Оплатить");
+        JButton jBCarInsurance = new JButton("Оплатить");
         jBCarInsurance.setBounds(270, 225, 100, 30);
         jBCarInsurance.setFocusable(false);
         jBCarInsurance.addActionListener(new CarInsuranceListener());
@@ -166,7 +154,7 @@ public class View {
         jLGas = new JLabel("Бензин " + expenses.getGas() + "€");
         jLGas.setBounds(10, 260, 300, 30);
         jLGas.setFont(secondaryFont);
-        jBGas = new JButton("Оплатить");
+        JButton jBGas = new JButton("Оплатить");
         jBGas.setBounds(270, 260, 100, 30);
         jBGas.setFocusable(false);
         jBGas.addActionListener(new GasListener());
@@ -174,7 +162,7 @@ public class View {
         jLElectricity = new JLabel("Электричество " + expenses.getElectricity() + "€");
         jLElectricity.setBounds(10, 295, 300, 30);
         jLElectricity.setFont(secondaryFont);
-        jBElectricity = new JButton("Оплатить");
+        JButton jBElectricity = new JButton("Оплатить");
         jBElectricity.setBounds(270, 295, 100, 30);
         jBElectricity.setFocusable(false);
         jBElectricity.addActionListener(new ElectricityListener());
@@ -182,7 +170,7 @@ public class View {
         jLInternet = new JLabel("Интернет " + expenses.getInternet() + "€");
         jLInternet.setBounds(10, 330, 300, 30);
         jLInternet.setFont(secondaryFont);
-        jBInternet = new JButton("Оплатить");
+        JButton jBInternet = new JButton("Оплатить");
         jBInternet.setBounds(270, 330, 100, 30);
         jBInternet.setFocusable(false);
         jBInternet.addActionListener(new InternetListener());
@@ -190,7 +178,7 @@ public class View {
         jLKindergarten = new JLabel("Садик " + expenses.getKindergarten() + "€");
         jLKindergarten.setBounds(10, 365, 300, 30);
         jLKindergarten.setFont(secondaryFont);
-        jBKindergarten = new JButton("Оплатить");
+        JButton jBKindergarten = new JButton("Оплатить");
         jBKindergarten.setBounds(270, 365, 100, 30);
         jBKindergarten.setFocusable(false);
         jBKindergarten.addActionListener(new KindergartenListener());
@@ -198,7 +186,7 @@ public class View {
         jLPhones = new JLabel("Телефоны " + expenses.getPhones() + "€");
         jLPhones.setBounds(10, 400, 300, 30);
         jLPhones.setFont(secondaryFont);
-        jBPhones = new JButton("Оплатить");
+        JButton jBPhones = new JButton("Оплатить");
         jBPhones.setBounds(270, 400, 100, 30);
         jBPhones.setFocusable(false);
         jBPhones.addActionListener(new PhonesListener());
@@ -206,7 +194,7 @@ public class View {
         jLDeposit = new JLabel("Никитин депозит " + expenses.getDeposit() + "€");
         jLDeposit.setBounds(10, 435, 300, 30);
         jLDeposit.setFont(secondaryFont);
-        jBDeposit = new JButton("Оплатить");
+        JButton jBDeposit = new JButton("Оплатить");
         jBDeposit.setBounds(270, 435, 100, 30);
         jBDeposit.setFocusable(false);
         jBDeposit.addActionListener(new DepositListener());
@@ -214,13 +202,21 @@ public class View {
         jLFood = new JLabel("Еда " + expenses.getFood() + "€");
         jLFood.setBounds(10, 470, 300, 30);
         jLFood.setFont(secondaryFont);
-        jBFood = new JButton("Оплатить");
+        JButton jBFood = new JButton("Оплатить");
         jBFood.setBounds(270, 470, 100, 30);
         jBFood.setFocusable(false);
         jBFood.addActionListener(new FoodListener());
 
+        jLOtherExpenses = new JLabel("Другие расходы " + expenses.getOtherExpenses() + "€");
+        jLOtherExpenses.setBounds(10, 505, 300, 30);
+        jLOtherExpenses.setFont(secondaryFont);
+        JButton jBOtherExpenses = new JButton("Оплатить");
+        jBOtherExpenses.setBounds(270, 505, 100, 30);
+        jBOtherExpenses.setFocusable(false);
+        jBOtherExpenses.addActionListener(new OtherExpensesListener());
+
         jLTotalExpenses = new JLabel("Расход всего за месяц " + expenses.getTotalExpensesForMonth() + "€");
-        jLTotalExpenses.setBounds(10, 540, 300, 30);
+        jLTotalExpenses.setBounds(10, 575, 300, 30);
         jLTotalExpenses.setFont(jLSFont);
 
         //Adding labels and buttons to the frame
@@ -265,6 +261,9 @@ public class View {
         jFrame.add(jLFood);
         jFrame.add(jBFood);
 
+        jFrame.add(jLOtherExpenses);
+        jFrame.add(jBOtherExpenses);
+
         jFrame.add(jLTotalExpenses);
         jFrame.add(jbnButton);
 
@@ -303,6 +302,7 @@ public class View {
         jLPhones.setText("Телефоны " + expenses.getPhones() + "€");
         jLDeposit.setText("Никитин депозит " + expenses.getDeposit() + "€");
         jLFood.setText("Еда " + expenses.getFood() + "€");
+        jLOtherExpenses.setText("Другие расходы " + expenses.getOtherExpenses() + "€");
     }
 
     //Listeners for buttons
@@ -404,20 +404,6 @@ public class View {
         }
     }
 
-    private class FoodListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
-            expenses.withdrawal(enteredAmount, FOOD);
-            jLFood.setText("Еда " + expenses.getFood() + "€");
-            refreshTotalExpenses();
-            refreshBudget();
-        }
-    }
-
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -475,6 +461,34 @@ public class View {
         }
     }
 
+    private class FoodListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            if (enteredAmount < 0) {
+                throw new NumberOnlyException(jFrame);
+            }
+            expenses.withdrawal(enteredAmount, FOOD);
+            jLFood.setText("Еда " + expenses.getFood() + "€");
+            refreshTotalExpenses();
+            refreshBudget();
+        }
+    }
+
+    private class OtherExpensesListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "Какую сумму вычесть?"));
+            if (enteredAmount < 0) {
+                throw new NumberOnlyException(jFrame);
+            }
+            expenses.withdrawal(enteredAmount, OTHER_EXPENSES);
+            jLOtherExpenses.setText("Другие расходы " + expenses.getOtherExpenses() + "€");
+            refreshTotalExpenses();
+            refreshBudget();
+        }
+    }
+
     //JMenu Listeners
     private class JMIClearListener implements ActionListener { //JMenu button clears all user data
         @Override
@@ -490,7 +504,44 @@ public class View {
     private class JMIHistoryListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            readFromDatabase();
+            String[] columnNames = {"Дата", "Лизинг квартиры", "Счета за квартиру",
+                    "Лизинг машины", "Каско машины", "Страховка машины", "Бензин", "Электричество", "Интернет", "Садик",
+                    "Телефоны", "Никитин депозит", "Еда", "Другие расходы", "Всего потрачено"};
+
+            JFrame jFrame = new JFrame("Database Search Result");
+            jFrame.setLayout(new BorderLayout());
+            jFrame.setBounds(300, 220, 1400, 400);
+
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.setColumnIdentifiers(columnNames);
+
+            JTable jTable = new JTable();
+            jTable.setModel(tableModel);
+
+            // Set column width
+            jTable.getColumnModel().getColumn(0).setPreferredWidth(120);
+            jTable.getColumnModel().getColumn(1).setPreferredWidth(140);
+            jTable.getColumnModel().getColumn(2).setPreferredWidth(145);
+            jTable.getColumnModel().getColumn(3).setPreferredWidth(125);
+            jTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+            jTable.getColumnModel().getColumn(5).setPreferredWidth(150);
+            jTable.getColumnModel().getColumn(6).setPreferredWidth(70);
+            jTable.getColumnModel().getColumn(7).setPreferredWidth(120);
+            jTable.getColumnModel().getColumn(8).setPreferredWidth(80);
+            jTable.getColumnModel().getColumn(9).setPreferredWidth(60);
+            jTable.getColumnModel().getColumn(10).setPreferredWidth(90);
+            jTable.getColumnModel().getColumn(11).setPreferredWidth(140);
+            jTable.getColumnModel().getColumn(12).setPreferredWidth(60);
+            jTable.getColumnModel().getColumn(13).setPreferredWidth(130);
+            jTable.getColumnModel().getColumn(14).setPreferredWidth(150);
+
+            JScrollPane jScrollPane = new JScrollPane(jTable);
+            jScrollPane.setBounds(jTable.getBounds());
+
+            jFrame.add(jScrollPane);
+            jFrame.setVisible(true);
+
+            readTableDataFromDatabase(tableModel);
         }
     }
 }

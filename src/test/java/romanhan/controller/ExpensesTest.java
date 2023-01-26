@@ -197,6 +197,19 @@ class ExpensesTest {
         assertThat(underTest.getDeposit()).isEqualTo(enteredValue);
     }
 
+    @Test
+    void withdrawalOtherExpenses() {
+        // given
+        int enteredValue = 10;
+        underTest.setBudget(enteredValue);
+
+        // when
+        underTest.withdrawal(enteredValue, Withdrawal.OTHER_EXPENSES);
+
+        // then
+        assertThat(underTest.getOtherExpenses()).isEqualTo(enteredValue);
+    }
+
 
 
     @Test
@@ -207,9 +220,7 @@ class ExpensesTest {
         underTest.setBudget(budgetAmount);
 
         // then
-        assertThrows(RuntimeException.class, () -> {
-            underTest.withdrawalBudget(enteredValue);
-        });
+        assertThrows(RuntimeException.class, () -> underTest.withdrawalBudget(enteredValue));
     }
     @Test
     void withdrawalIfBudgetAmountIsEnough() {
@@ -241,6 +252,7 @@ class ExpensesTest {
         underTest.setPhones(value);
         underTest.setDeposit(value);
         underTest.setFood(value);
+        underTest.setOtherExpenses(value);
         underTest.setTotalExpensesForMonth(value);
         underTest.setBudget(value);
 
@@ -260,6 +272,7 @@ class ExpensesTest {
         assertThat(underTest.getPhones()).isEqualTo(0);
         assertThat(underTest.getDeposit()).isEqualTo(0);
         assertThat(underTest.getFood()).isEqualTo(0);
+        assertThat(underTest.getOtherExpenses()).isEqualTo(0);
         assertThat(underTest.getTotalExpensesForMonth()).isEqualTo(0);
         assertThat(underTest.getBudget()).isEqualTo(0);
     }
@@ -278,9 +291,7 @@ class ExpensesTest {
         String value = "sd";
 
         // then
-        assertThrows(NumberFormatException.class, () -> {
-            Expenses.checkEnteredValue(value);
-        });
+        assertThrows(NumberFormatException.class, () -> Expenses.checkEnteredValue(value));
     }
     @Test
     void ifEnteredValueIsDigitShouldReturnIt() {
