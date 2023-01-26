@@ -21,6 +21,7 @@ public class Expenses implements Serializable {
     private int kindergarten;
     private int phones;
     private int deposit;
+    private int otherExpenses;
     private int totalExpensesForMonth;
     private final User user;
 
@@ -94,6 +95,10 @@ public class Expenses implements Serializable {
         this.deposit = deposit;
     }
 
+    public void setOtherExpenses(int otherExpenses) {
+        this.otherExpenses = otherExpenses;
+    }
+
     public void setTotalExpensesForMonth(int totalExpensesForMonth) {
         this.totalExpensesForMonth = totalExpensesForMonth;
     }
@@ -144,6 +149,10 @@ public class Expenses implements Serializable {
 
     public int getDeposit() {
         return deposit;
+    }
+
+    public int getOtherExpenses() {
+        return otherExpenses;
     }
 
     public int getTotalExpensesForMonth() {
@@ -212,6 +221,11 @@ public class Expenses implements Serializable {
                 deposit += amount;
                 totalExpensesForMonth += amount;
                 break;
+            case OTHER_EXPENSES:
+                withdrawalBudget(amount);
+                otherExpenses += amount;
+                totalExpensesForMonth += amount;
+                break;
         }
     }
 
@@ -240,6 +254,7 @@ public class Expenses implements Serializable {
         setPhones(0);
         setDeposit(0);
         setFood(0);
+        setOtherExpenses(0);
         setTotalExpensesForMonth(0);
         clearBudget();
     }
