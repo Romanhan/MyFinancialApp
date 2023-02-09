@@ -52,29 +52,6 @@ public class View {
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
             public void windowClosing(WindowEvent e) { //Check if file path exists
-
-                //Work with file
-
-                /*Path filePath = Paths.get("C:\\MyFinancialApp\\");
-                if (!Files.exists(filePath)) {
-                    try {
-                        Files.createDirectory(filePath);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-                try (FileOutputStream fileOut = new FileOutputStream("C:\\MyFinancialApp\\" + currentMonthAndYear() + ".ser"); // Save data to file
-                     ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-                    out.writeObject(user);
-                    out.writeObject(expenses);
-                    out.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }*/
-
-                //Work with databases
-
-                //MySQLDatabase.saveToDatabase(expenses);
                 H2Database.saveToDatabase(expenses);
             }
         });
