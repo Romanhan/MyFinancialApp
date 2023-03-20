@@ -1,50 +1,66 @@
-package romanhan.controller;
+package romanhan.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import romanhan.exception.NotEnoughBalanceException;
 import romanhan.exception.NumberOnlyException;
-import romanhan.model.User;
 import romanhan.view.View;
 
-import java.io.Serializable;
+import static romanhan.dao.ExpensesDao.currentMonthAndYear;
 
-public class Expenses implements Serializable {
-    // private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "my_financial_app")
+public class Expenses {
+    @Id
+    @Column(name = "current_month")
+    private String id = currentMonthAndYear();
+    @Column(name = "user_budget")
+    private int budget;
+    @Column(name = "apartment_leasing")
     private int apartmentLeasing;
+    @Column(name = "apartment_bill")
     private int apartmentBill;
+    @Column(name = "car_leasing")
     private int carLeasing;
+    @Column(name = "car_casco")
     private int carCasco;
+    @Column(name = "car_insurance")
     private int carInsurance;
     private int gas;
     private int electricity;
-    private int food;
     private int internet;
     private int kindergarten;
     private int phones;
     private int deposit;
+    private int food;
+    @Column(name = "other_expenses")
     private int otherExpenses;
+    @Column(name = "total_expenses")
     private int totalExpensesForMonth;
-    private final User user;
 
-    //User getter and setter
-    public void setBudget(int amount) {
-        user.setBudget(amount);
-    }
-
-    public void deposit(int amount) {
-        user.deposit(amount);
+    public String getId() {
+        return id;
     }
 
     public int getBudget() {
-        return user.getBudget();
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public void deposit(int amount) {
+        this.budget += amount;
     }
 
     public void clearBudget() {
-        user.clearBudget();
+        setBudget(0);
     }
 
-    //Expenses constructor, getter and setter
-    public Expenses(User user) {
-        this.user = user;
+    public Expenses() {
     }
 
     public void setApartmentLeasing(int apartmentLeasing) {
@@ -161,80 +177,80 @@ public class Expenses implements Serializable {
 
     public void withdrawal(int amount, Withdrawal withdrawalType) {
         switch (withdrawalType) {
-            case APARTMENT_LEASING:
+            case APARTMENT_LEASING -> {
                 withdrawalBudget(amount);
                 apartmentLeasing += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case APARTMENT_BILL:
+            }
+            case APARTMENT_BILL -> {
                 withdrawalBudget(amount);
                 apartmentBill += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case CAR_LEASING:
+            }
+            case CAR_LEASING -> {
                 withdrawalBudget(amount);
                 carLeasing += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case CAR_CASCO:
+            }
+            case CAR_CASCO -> {
                 withdrawalBudget(amount);
                 carCasco += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case CAR_INSURANCE:
+            }
+            case CAR_INSURANCE -> {
                 withdrawalBudget(amount);
                 carInsurance += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case GAS:
+            }
+            case GAS -> {
                 withdrawalBudget(amount);
                 gas += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case ELECTRICITY:
+            }
+            case ELECTRICITY -> {
                 withdrawalBudget(amount);
                 electricity += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case FOOD:
+            }
+            case FOOD -> {
                 withdrawalBudget(amount);
                 food += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case INTERNET:
+            }
+            case INTERNET -> {
                 withdrawalBudget(amount);
                 internet += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case KINDERGARTEN:
+            }
+            case KINDERGARTEN -> {
                 withdrawalBudget(amount);
                 kindergarten += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case PHONES:
+            }
+            case PHONES -> {
                 withdrawalBudget(amount);
                 phones += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case DEPOSIT:
+            }
+            case DEPOSIT -> {
                 withdrawalBudget(amount);
                 deposit += amount;
                 totalExpensesForMonth += amount;
-                break;
-            case OTHER_EXPENSES:
+            }
+            case OTHER_EXPENSES -> {
                 withdrawalBudget(amount);
                 otherExpenses += amount;
                 totalExpensesForMonth += amount;
-                break;
+            }
         }
     }
 
     public void withdrawalBudget(int amount) {
         try {
-            if (user.getBudget() - amount < 0) {
+            if (getBudget() - amount < 0) {
                 throw new NotEnoughBalanceException(View.jFrame);
             } else {
-                user.setBudget(user.getBudget() - amount);
+                setBudget(getBudget() - amount);
             }
         } catch (NotEnoughBalanceException e) {
             throw new RuntimeException(e);
