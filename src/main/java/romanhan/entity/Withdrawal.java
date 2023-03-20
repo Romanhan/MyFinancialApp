@@ -1,4 +1,4 @@
-package romanhan.controller;
+package romanhan.entity;
 
 public enum Withdrawal {
     APARTMENT_LEASING,

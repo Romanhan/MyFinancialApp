@@ -1,17 +1,20 @@
 package romanhan.view;
 
-import romanhan.database.H2Database;
-import romanhan.controller.Expenses;
+import romanhan.dao.ExpensesDao;
+import romanhan.entity.Expenses;
 import romanhan.exception.NumberOnlyException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import static romanhan.controller.Expenses.checkEnteredValue;
-import static romanhan.controller.Withdrawal.*;
-import static romanhan.database.H2Database.*;
+import static romanhan.dao.ExpensesDao.*;
+import static romanhan.entity.Expenses.checkEnteredValue;
+import static romanhan.entity.Withdrawal.*;
 
 public class View {
     private final Expenses expenses;
@@ -52,7 +55,7 @@ public class View {
         jFrame.addWindowListener(new WindowAdapter() { //When user clicks Exit button, program checks if file paths exists and saves data to file
             @Override
             public void windowClosing(WindowEvent e) { //Check if file path exists
-                H2Database.saveToDatabase(expenses);
+                ExpensesDao.saveExpenses(expenses);
             }
         });
         //Adding menu bar
@@ -61,7 +64,7 @@ public class View {
 
         jMIHistory.addActionListener(new JMIHistoryListener());
 
-        JMenuItem jMIClear = new JMenuItem("Стереть все данные");
+        JMenuItem jMIClear = new JMenuItem("Стереть данные этого месяца");
         jMIClear.addActionListener(new JMIClearListener());
 
         jMenu.add(jMIHistory);
@@ -470,14 +473,21 @@ public class View {
     private class JMIClearListener implements ActionListener { //JMenu button clears all user data
         @Override
         public void actionPerformed(ActionEvent e) {
-            expenses.clearAllData();
-            refreshBudget();
-            refreshTotalExpenses();
-            refreshAllExpenses();
+            int choice = JOptionPane.showOptionDialog(jFrame,
+                    "Вы уверены что хотите стереть данные этого месяца?", "Стереть?",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, null, null);
+
+            // interpret the user's choice
+            if (choice == JOptionPane.YES_OPTION) {
+                expenses.clearAllData();
+                refreshBudget();
+                refreshTotalExpenses();
+                refreshAllExpenses();
+            }
         }
     }
 
-    //For future updates
     private class JMIHistoryListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -518,7 +528,8 @@ public class View {
             jFrame.add(jScrollPane);
             jFrame.setVisible(true);
 
-            readTableDataFromDatabase(tableModel);
+            //readTableDataFromDatabase(tableModel);
+            getExpensesTable(tableModel);
         }
     }
 }

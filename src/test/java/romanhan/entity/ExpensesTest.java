@@ -1,15 +1,12 @@
-package romanhan.controller;
+package romanhan.entity;
 
 import org.junit.jupiter.api.Test;
-import romanhan.model.User;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 class ExpensesTest {
-    private final User user = new User();
-    private final Expenses underTest = new Expenses(user);
+    private final Expenses underTest = new Expenses();
     @Test
     void setAndGetBudget() {
         // given

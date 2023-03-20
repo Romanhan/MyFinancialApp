@@ -5,7 +5,7 @@ Here I used GitHub to work with my project, add branches, modify and marge, used
 Working version is ready, and now I'm starting to use it and collect feedback.
 
 What I used on this project:
-Swing UI. JDBC to work with H2 embedded database. JUnit to test and Maven.
+Swing UI. Hibernate to work with H2 embedded database. JUnit to test and Maven.
 
 Version 0.1
 Can't save information after closing the app.
@@ -21,3 +21,6 @@ Added database to save user data.
 
 Version 0.4.1
 Added possibility to open table of past expenses.
+
+Version 0.4.2
+Added Hibernate
