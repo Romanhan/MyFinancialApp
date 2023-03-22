@@ -1,8 +1,9 @@
 package romanhan.entity;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExpensesTest {
@@ -17,7 +18,7 @@ class ExpensesTest {
 
         // then
         int expectedValue = underTest.getBudget();
-        assertThat(expectedValue).isEqualTo(enteredValue);
+        assertEquals(expectedValue, enteredValue);
     }
 
     @Test
@@ -31,7 +32,7 @@ class ExpensesTest {
 
         // then
         int resultValue = underTest.getBudget();
-        assertThat(resultValue).isEqualTo(startValue + enteredValue);
+        assertEquals(resultValue, startValue + enteredValue);
     }
 
     @Test
@@ -45,7 +46,7 @@ class ExpensesTest {
 
         // then
         int expected = 0;
-        assertThat(underTest.getBudget()).isEqualTo(expected);
+        assertEquals(underTest.getBudget(), expected);
     }
 
     @Test
@@ -58,7 +59,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.APARTMENT_LEASING);
 
         // then
-        assertThat(underTest.getApartmentLeasing()).isEqualTo(enteredValue);
+        assertEquals(underTest.getApartmentLeasing(), enteredValue);
     }
 
     @Test
@@ -71,7 +72,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.APARTMENT_BILL);
 
         // then
-        assertThat(underTest.getApartmentBill()).isEqualTo(enteredValue);
+        assertEquals(underTest.getApartmentBill(), enteredValue);
     }
     @Test
     void withdrawalCarLeasing() {
@@ -83,7 +84,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.CAR_LEASING);
 
         // then
-        assertThat(underTest.getCarLeasing()).isEqualTo(enteredValue);
+        assertEquals(underTest.getCarLeasing(), enteredValue);
     }
     @Test
     void withdrawalCarCasco() {
@@ -95,7 +96,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.CAR_CASCO);
 
         // then
-        assertThat(underTest.getCarCasco()).isEqualTo(enteredValue);
+        assertEquals(underTest.getCarCasco(), enteredValue);
     }
     @Test
     void withdrawalCarInsurance() {
@@ -107,7 +108,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.CAR_INSURANCE);
 
         // then
-        assertThat(underTest.getCarInsurance()).isEqualTo(enteredValue);
+        assertEquals(underTest.getCarInsurance(), enteredValue);
     }
     @Test
     void withdrawalGas() {
@@ -119,7 +120,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.GAS);
 
         // then
-        assertThat(underTest.getGas()).isEqualTo(enteredValue);
+        assertEquals(underTest.getGas(), enteredValue);
     }
     @Test
     void withdrawalElectricity() {
@@ -131,7 +132,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.ELECTRICITY);
 
         // then
-        assertThat(underTest.getElectricity()).isEqualTo(enteredValue);
+        assertEquals(underTest.getElectricity(), enteredValue);
     }
     @Test
     void withdrawalFood() {
@@ -143,7 +144,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.FOOD);
 
         // then
-        assertThat(underTest.getFood()).isEqualTo(enteredValue);
+        assertEquals(underTest.getFood(), enteredValue);
     }
     @Test
     void withdrawalInternet() {
@@ -155,7 +156,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.INTERNET);
 
         // then
-        assertThat(underTest.getInternet()).isEqualTo(enteredValue);
+        assertEquals(underTest.getInternet(), enteredValue);
     }
     @Test
     void withdrawalKindergarten() {
@@ -167,7 +168,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.KINDERGARTEN);
 
         // then
-        assertThat(underTest.getKindergarten()).isEqualTo(enteredValue);
+        assertEquals(underTest.getKindergarten(), enteredValue);
     }
     @Test
     void withdrawalPhones() {
@@ -179,7 +180,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.PHONES);
 
         // then
-        assertThat(underTest.getPhones()).isEqualTo(enteredValue);
+        assertEquals(underTest.getPhones(), enteredValue);
     }
     @Test
     void withdrawalDeposit() {
@@ -191,7 +192,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.DEPOSIT);
 
         // then
-        assertThat(underTest.getDeposit()).isEqualTo(enteredValue);
+        assertEquals(underTest.getDeposit(), enteredValue);
     }
 
     @Test
@@ -204,7 +205,7 @@ class ExpensesTest {
         underTest.withdrawal(enteredValue, Withdrawal.OTHER_EXPENSES);
 
         // then
-        assertThat(underTest.getOtherExpenses()).isEqualTo(enteredValue);
+        assertEquals(underTest.getOtherExpenses(), enteredValue);
     }
 
 
@@ -230,7 +231,7 @@ class ExpensesTest {
         underTest.withdrawalBudget(enteredValue);
 
         // then
-        assertThat(budgetAmount).isGreaterThan(enteredValue);
+        Assertions.assertTrue(budgetAmount > enteredValue);
     }
 
     @Test
@@ -257,21 +258,21 @@ class ExpensesTest {
         underTest.clearAllData();
 
         // then
-        assertThat(underTest.getApartmentLeasing()).isEqualTo(0);
-        assertThat(underTest.getApartmentBill()).isEqualTo(0);
-        assertThat(underTest.getCarLeasing()).isEqualTo(0);
-        assertThat(underTest.getCarCasco()).isEqualTo(0);
-        assertThat(underTest.getCarInsurance()).isEqualTo(0);
-        assertThat(underTest.getGas()).isEqualTo(0);
-        assertThat(underTest.getElectricity()).isEqualTo(0);
-        assertThat(underTest.getInternet()).isEqualTo(0);
-        assertThat(underTest.getKindergarten()).isEqualTo(0);
-        assertThat(underTest.getPhones()).isEqualTo(0);
-        assertThat(underTest.getDeposit()).isEqualTo(0);
-        assertThat(underTest.getFood()).isEqualTo(0);
-        assertThat(underTest.getOtherExpenses()).isEqualTo(0);
-        assertThat(underTest.getTotalExpensesForMonth()).isEqualTo(0);
-        assertThat(underTest.getBudget()).isEqualTo(0);
+        assertEquals(underTest.getApartmentLeasing(), 0);
+        assertEquals(underTest.getApartmentBill(), 0);
+        assertEquals(underTest.getCarLeasing(), 0);
+        assertEquals(underTest.getCarCasco(), 0);
+        assertEquals(underTest.getCarInsurance(), 0);
+        assertEquals(underTest.getGas(), 0);
+        assertEquals(underTest.getElectricity(), 0);
+        assertEquals(underTest.getInternet(), 0);
+        assertEquals(underTest.getKindergarten(), 0);
+        assertEquals(underTest.getPhones(), 0);
+        assertEquals(underTest.getDeposit(), 0);
+        assertEquals(underTest.getFood(), 0);
+        assertEquals(underTest.getOtherExpenses(), 0);
+        assertEquals(underTest.getTotalExpensesForMonth(), 0);
+        assertEquals(underTest.getBudget(), 0);
     }
 
     @Test
@@ -280,7 +281,7 @@ class ExpensesTest {
         String value = "";
 
         // then
-        assertThat(Expenses.checkEnteredValue(value)).isEqualTo(0);
+        assertEquals(Expenses.checkEnteredValue(value), 0);
     }
     @Test
     void ifEnteredValueIsStringShouldReturnException() {
@@ -299,7 +300,7 @@ class ExpensesTest {
         int result = 1;
 
         // then
-        assertThat(Expenses.checkEnteredValue(value)).isEqualTo(result);
+        assertEquals(Expenses.checkEnteredValue(value), result);
     }
 
 }
