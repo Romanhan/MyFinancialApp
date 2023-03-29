@@ -56,7 +56,8 @@ public class ExpensesDao {
     }
 
     public static String[] getMonthName() { // Write month name on russian in Frame
-        return new String[]{"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+        return new String[]{"January", "February", "March", "April", "Nay", "June", "Juli",
+                "August", "September", "October", "November", "December"};
     }
 
     public static String currentMonthAndYear() {
