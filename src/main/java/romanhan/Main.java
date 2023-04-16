@@ -12,6 +12,7 @@ public class Main {
             view = new View(ExpensesDao.getExpenses());
             view.addComponentsToPane();
         } catch (Exception ex) {
+            expenses.clearAllData();
             view = new View(expenses);
             view.addComponentsToPane();
         }
