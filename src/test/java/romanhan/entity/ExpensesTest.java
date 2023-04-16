@@ -1,58 +1,69 @@
 package romanhan.entity;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExpensesTest {
     private final Expenses underTest = new Expenses();
+
+    @Test
+    @BeforeEach
+    void setUp() {
+        underTest.clearAllData();
+    }
+
+
     @Test
     void setAndGetBudget() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
 
         // when
         underTest.setBudget(enteredValue);
 
         // then
-        int expectedValue = underTest.getBudget();
+        BigDecimal expectedValue = underTest.getBudget();
         assertEquals(expectedValue, enteredValue);
     }
 
     @Test
     void checkIfDepositing() {
         // given
-        int enteredValue = 10;
-        int startValue = underTest.getBudget();
+        BigDecimal enteredValue = new BigDecimal(10);
+        BigDecimal startValue = underTest.getBudget();
 
         // when
         underTest.deposit(enteredValue);
 
         // then
-        int resultValue = underTest.getBudget();
-        assertEquals(resultValue, startValue + enteredValue);
+        BigDecimal resultValue = underTest.getBudget();
+        assertEquals(resultValue, startValue.add(enteredValue));
     }
 
     @Test
     void clearBudget() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
         underTest.clearBudget();
 
         // then
-        int expected = 0;
+        BigDecimal expected = new BigDecimal(0);
         assertEquals(underTest.getBudget(), expected);
     }
 
     @Test
     void withdrawalApartmentLeasing() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -65,7 +76,7 @@ class ExpensesTest {
     @Test
     void withdrawalApartmentBill() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -77,7 +88,7 @@ class ExpensesTest {
     @Test
     void withdrawalCarLeasing() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -89,7 +100,7 @@ class ExpensesTest {
     @Test
     void withdrawalCarCasco() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -101,7 +112,7 @@ class ExpensesTest {
     @Test
     void withdrawalCarInsurance() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -113,7 +124,7 @@ class ExpensesTest {
     @Test
     void withdrawalGas() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -125,7 +136,7 @@ class ExpensesTest {
     @Test
     void withdrawalElectricity() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -137,7 +148,7 @@ class ExpensesTest {
     @Test
     void withdrawalFood() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -149,7 +160,7 @@ class ExpensesTest {
     @Test
     void withdrawalInternet() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -161,7 +172,7 @@ class ExpensesTest {
     @Test
     void withdrawalKindergarten() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -173,7 +184,7 @@ class ExpensesTest {
     @Test
     void withdrawalPhones() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -185,7 +196,7 @@ class ExpensesTest {
     @Test
     void withdrawalDeposit() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -198,7 +209,7 @@ class ExpensesTest {
     @Test
     void withdrawalOtherExpenses() {
         // given
-        int enteredValue = 10;
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
@@ -213,8 +224,8 @@ class ExpensesTest {
     @Test
     void throwsExceptionIfBalanceIsSmallerThanWithdrawalAmount() {
         // given
-        int budgetAmount = 10;
-        int enteredValue = 20;
+        BigDecimal budgetAmount = new BigDecimal(10);
+        BigDecimal enteredValue = new BigDecimal(20);
         underTest.setBudget(budgetAmount);
 
         // then
@@ -223,21 +234,21 @@ class ExpensesTest {
     @Test
     void withdrawalIfBudgetAmountIsEnough() {
         // given
-        int budgetAmount = 20;
-        int enteredValue = 10;
+        BigDecimal budgetAmount = new BigDecimal(20);
+        BigDecimal enteredValue = new BigDecimal(10);
         underTest.setBudget(enteredValue);
 
         // when
         underTest.withdrawalBudget(enteredValue);
 
         // then
-        Assertions.assertTrue(budgetAmount > enteredValue);
+        Assertions.assertTrue(budgetAmount.compareTo(enteredValue) > 0);
     }
 
     @Test
     void clearAllData() {
         // given
-        int value = 10;
+        BigDecimal value = new BigDecimal(10);
         underTest.setApartmentLeasing(value);
         underTest.setApartmentBill(value);
         underTest.setCarLeasing(value);
@@ -258,21 +269,21 @@ class ExpensesTest {
         underTest.clearAllData();
 
         // then
-        assertEquals(underTest.getApartmentLeasing(), 0);
-        assertEquals(underTest.getApartmentBill(), 0);
-        assertEquals(underTest.getCarLeasing(), 0);
-        assertEquals(underTest.getCarCasco(), 0);
-        assertEquals(underTest.getCarInsurance(), 0);
-        assertEquals(underTest.getGas(), 0);
-        assertEquals(underTest.getElectricity(), 0);
-        assertEquals(underTest.getInternet(), 0);
-        assertEquals(underTest.getKindergarten(), 0);
-        assertEquals(underTest.getPhones(), 0);
-        assertEquals(underTest.getDeposit(), 0);
-        assertEquals(underTest.getFood(), 0);
-        assertEquals(underTest.getOtherExpenses(), 0);
-        assertEquals(underTest.getTotalExpensesForMonth(), 0);
-        assertEquals(underTest.getBudget(), 0);
+        assertEquals(underTest.getApartmentLeasing(), BigDecimal.ZERO);
+        assertEquals(underTest.getApartmentBill(), BigDecimal.ZERO);
+        assertEquals(underTest.getCarLeasing(), BigDecimal.ZERO);
+        assertEquals(underTest.getCarCasco(), BigDecimal.ZERO);
+        assertEquals(underTest.getCarInsurance(), BigDecimal.ZERO);
+        assertEquals(underTest.getGas(), BigDecimal.ZERO);
+        assertEquals(underTest.getElectricity(), BigDecimal.ZERO);
+        assertEquals(underTest.getInternet(), BigDecimal.ZERO);
+        assertEquals(underTest.getKindergarten(), BigDecimal.ZERO);
+        assertEquals(underTest.getPhones(), BigDecimal.ZERO);
+        assertEquals(underTest.getDeposit(), BigDecimal.ZERO);
+        assertEquals(underTest.getFood(), BigDecimal.ZERO);
+        assertEquals(underTest.getOtherExpenses(), BigDecimal.ZERO);
+        assertEquals(underTest.getTotalExpensesForMonth(), BigDecimal.ZERO);
+        assertEquals(underTest.getBudget(), BigDecimal.ZERO);
     }
 
     @Test
@@ -281,7 +292,7 @@ class ExpensesTest {
         String value = "";
 
         // then
-        assertEquals(Expenses.checkEnteredValue(value), 0);
+        assertEquals(Expenses.checkEnteredValue(value), BigDecimal.ZERO);
     }
     @Test
     void ifEnteredValueIsStringShouldReturnException() {
@@ -297,7 +308,7 @@ class ExpensesTest {
         String value = "1";
 
         // when
-        int result = 1;
+        BigDecimal result = new BigDecimal(1);
 
         // then
         assertEquals(Expenses.checkEnteredValue(value), result);

@@ -2,7 +2,6 @@ package romanhan.view;
 
 import romanhan.dao.ExpensesDao;
 import romanhan.entity.Expenses;
-import romanhan.exception.NumberOnlyException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 
-import static romanhan.dao.ExpensesDao.*;
+import static romanhan.dao.ExpensesDao.currentMonthAndYear;
+import static romanhan.dao.ExpensesDao.getExpensesTable;
 import static romanhan.entity.Expenses.checkEnteredValue;
 import static romanhan.entity.Withdrawal.*;
 
@@ -39,7 +40,7 @@ public class View {
     private final JMenuBar jMenuBar = new JMenuBar();
 
     Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
-    Font secondaryFont = new Font("Segoe UI", Font.PLAIN, 20);
+    Font secondaryFont = new Font("", Font.PLAIN, 20);
 
     public View(Expenses expenses) {
         this.expenses = expenses;
@@ -78,7 +79,7 @@ public class View {
 
         JLabel jLabelStart = new JLabel("Expenses:");
         jLabelStart.setBounds(10, 55, 200, 25);
-        Font jLSFont = new Font("Times New Roman", Font.BOLD, 15);
+        Font jLSFont = new Font("", Font.BOLD, 15);
         jLabelStart.setFont(jLSFont);
 
         jIncomeLabel = new JLabel();
@@ -254,7 +255,7 @@ public class View {
     private class DepositBalanceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "What amount you want to add?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "What amount you want to add?"));
             expenses.deposit(enteredAmount);
             refreshBudget();
         }
@@ -262,7 +263,7 @@ public class View {
 
     //Refresh data after updating amount
     private void refreshBudget() {
-        jIncomeLabel.setText("Month budget " + expenses.getBudget() + "€");
+        jIncomeLabel.setText("Budget for month " + expenses.getBudget() + "€");
     }
 
     private void refreshTotalExpenses() {
@@ -289,10 +290,7 @@ public class View {
     private class ApartmentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, APARTMENT_LEASING);
             jLApartment.setText("Apartment leasing " + expenses.getApartmentLeasing() + "€");
             refreshTotalExpenses();
@@ -303,10 +301,7 @@ public class View {
     private class ApartmentBillListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, APARTMENT_BILL);
             jLApartmentBill.setText("Apartment bill " + expenses.getApartmentBill() + "€");
             refreshTotalExpenses();
@@ -317,10 +312,7 @@ public class View {
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, CAR_LEASING);
             jLCarLeasing.setText("Car leasing " + expenses.getCarLeasing() + "€");
             refreshTotalExpenses();
@@ -331,10 +323,7 @@ public class View {
     private class CarCascoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, CAR_CASCO);
             jLCarCasco.setText("Casco " + expenses.getCarCasco() + "€");
             refreshTotalExpenses();
@@ -345,10 +334,7 @@ public class View {
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, CAR_INSURANCE);
             jLCarInsurance.setText("Car insurance " + expenses.getCarInsurance() + "€");
             refreshTotalExpenses();
@@ -359,10 +345,7 @@ public class View {
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, GAS);
             jLGas.setText("Gas " + expenses.getGas() + "€");
             refreshTotalExpenses();
@@ -373,10 +356,7 @@ public class View {
     private class ElectricityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, ELECTRICITY);
             jLElectricity.setText("Electricity " + expenses.getElectricity() + "€");
             refreshTotalExpenses();
@@ -387,10 +367,7 @@ public class View {
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, INTERNET);
             jLInternet.setText("Internet " + expenses.getInternet() + "€");
             refreshTotalExpenses();
@@ -401,10 +378,7 @@ public class View {
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, KINDERGARTEN);
             jLKindergarten.setText("Kindergarten " + expenses.getKindergarten() + "€");
             refreshTotalExpenses();
@@ -415,10 +389,7 @@ public class View {
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, PHONES);
             jLPhones.setText("Phones " + expenses.getPhones() + "€");
             refreshTotalExpenses();
@@ -429,11 +400,7 @@ public class View {
     private class DepositListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount;
-            enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, DEPOSIT);
             jLDeposit.setText("Deposit " + expenses.getDeposit() + "€");
             refreshTotalExpenses();
@@ -444,10 +411,7 @@ public class View {
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, FOOD);
             jLFood.setText("Food " + expenses.getFood() + "€");
             refreshTotalExpenses();
@@ -458,10 +422,7 @@ public class View {
     private class OtherExpensesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
-            if (enteredAmount < 0) {
-                throw new NumberOnlyException(jFrame);
-            }
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
             expenses.withdrawal(enteredAmount, OTHER_EXPENSES);
             jLOtherExpenses.setText("Other expenses " + expenses.getOtherExpenses() + "€");
             refreshTotalExpenses();
@@ -506,19 +467,19 @@ public class View {
             jTable.setModel(tableModel);
 
             // Set column width
-            jTable.getColumnModel().getColumn(0).setPreferredWidth(120);
+            jTable.getColumnModel().getColumn(0).setPreferredWidth(130);
             jTable.getColumnModel().getColumn(1).setPreferredWidth(140);
             jTable.getColumnModel().getColumn(2).setPreferredWidth(130);
             jTable.getColumnModel().getColumn(3).setPreferredWidth(110);
             jTable.getColumnModel().getColumn(4).setPreferredWidth(100);
             jTable.getColumnModel().getColumn(5).setPreferredWidth(130);
-            jTable.getColumnModel().getColumn(6).setPreferredWidth(60);
+            jTable.getColumnModel().getColumn(6).setPreferredWidth(80);
             jTable.getColumnModel().getColumn(7).setPreferredWidth(100);
             jTable.getColumnModel().getColumn(8).setPreferredWidth(80);
             jTable.getColumnModel().getColumn(9).setPreferredWidth(90);
             jTable.getColumnModel().getColumn(10).setPreferredWidth(90);
             jTable.getColumnModel().getColumn(11).setPreferredWidth(100);
-            jTable.getColumnModel().getColumn(12).setPreferredWidth(60);
+            jTable.getColumnModel().getColumn(12).setPreferredWidth(80);
             jTable.getColumnModel().getColumn(13).setPreferredWidth(130);
             jTable.getColumnModel().getColumn(14).setPreferredWidth(150);
 
