@@ -290,7 +290,7 @@ public class View {
     private class ApartmentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, APARTMENT_LEASING);
             jLApartment.setText("Apartment leasing " + expenses.getApartmentLeasing() + "€");
             refreshTotalExpenses();
@@ -301,7 +301,7 @@ public class View {
     private class ApartmentBillListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, APARTMENT_BILL);
             jLApartmentBill.setText("Apartment bill " + expenses.getApartmentBill() + "€");
             refreshTotalExpenses();
@@ -312,7 +312,7 @@ public class View {
     private class CarLeasingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, CAR_LEASING);
             jLCarLeasing.setText("Car leasing " + expenses.getCarLeasing() + "€");
             refreshTotalExpenses();
@@ -323,7 +323,7 @@ public class View {
     private class CarCascoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, CAR_CASCO);
             jLCarCasco.setText("Casco " + expenses.getCarCasco() + "€");
             refreshTotalExpenses();
@@ -334,7 +334,7 @@ public class View {
     private class CarInsuranceListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, CAR_INSURANCE);
             jLCarInsurance.setText("Car insurance " + expenses.getCarInsurance() + "€");
             refreshTotalExpenses();
@@ -345,7 +345,7 @@ public class View {
     private class GasListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, GAS);
             jLGas.setText("Gas " + expenses.getGas() + "€");
             refreshTotalExpenses();
@@ -356,7 +356,7 @@ public class View {
     private class ElectricityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, ELECTRICITY);
             jLElectricity.setText("Electricity " + expenses.getElectricity() + "€");
             refreshTotalExpenses();
@@ -367,7 +367,7 @@ public class View {
     private class InternetListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, INTERNET);
             jLInternet.setText("Internet " + expenses.getInternet() + "€");
             refreshTotalExpenses();
@@ -378,7 +378,7 @@ public class View {
     private class KindergartenListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, KINDERGARTEN);
             jLKindergarten.setText("Kindergarten " + expenses.getKindergarten() + "€");
             refreshTotalExpenses();
@@ -389,7 +389,7 @@ public class View {
     private class PhonesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, PHONES);
             jLPhones.setText("Phones " + expenses.getPhones() + "€");
             refreshTotalExpenses();
@@ -400,7 +400,7 @@ public class View {
     private class DepositListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, DEPOSIT);
             jLDeposit.setText("Deposit " + expenses.getDeposit() + "€");
             refreshTotalExpenses();
@@ -411,7 +411,7 @@ public class View {
     private class FoodListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, FOOD);
             jLFood.setText("Food " + expenses.getFood() + "€");
             refreshTotalExpenses();
@@ -422,7 +422,7 @@ public class View {
     private class OtherExpensesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to deduct?"));
+            BigDecimal enteredAmount = checkEnteredValue(JOptionPane.showInputDialog(jFrame, "How much to subtract?"));
             expenses.withdrawal(enteredAmount, OTHER_EXPENSES);
             jLOtherExpenses.setText("Other expenses " + expenses.getOtherExpenses() + "€");
             refreshTotalExpenses();

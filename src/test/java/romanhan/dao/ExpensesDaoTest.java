@@ -42,7 +42,7 @@ class ExpensesDaoTest {
 
     @Test
     void saveExpenses() {
-        Expenses expenses = new Expenses();
+        Expenses expenses = Expenses.getExpenses();
         expenses.setId("November 2023");
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -57,7 +57,7 @@ class ExpensesDaoTest {
 
     @Test
     void getExpensesById() {
-        Expenses expenses = new Expenses();
+        Expenses expenses = Expenses.getExpenses();
         expenses.setId(currentMonthAndYear());
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -73,7 +73,7 @@ class ExpensesDaoTest {
 
     @Test
     void getExpensesTable() {
-        Expenses expenses = new Expenses();
+        Expenses expenses = Expenses.getExpenses();
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 

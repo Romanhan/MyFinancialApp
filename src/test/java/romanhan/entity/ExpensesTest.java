@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExpensesTest {
-    private final Expenses underTest = new Expenses();
+    private final Expenses underTest = Expenses.getExpenses();
 
     @Test
     @BeforeEach

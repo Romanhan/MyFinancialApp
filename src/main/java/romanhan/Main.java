@@ -6,7 +6,7 @@ import romanhan.view.View;
 
 public class Main {
     public static void main(String[] args) {
-        Expenses expenses = new Expenses();
+        Expenses expenses = Expenses.getExpenses();
         View view;
         try {
             view = new View(ExpensesDao.getExpenses());
