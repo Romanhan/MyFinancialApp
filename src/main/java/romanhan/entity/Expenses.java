@@ -49,6 +49,15 @@ public class Expenses {
     @Column(precision = 10, scale = 3, name = "total_expenses")
     private BigDecimal totalExpensesForMonth;
 
+    private static Expenses instance = new Expenses();
+
+    private Expenses() {
+    }
+
+    public static Expenses getExpenses() {
+        return instance;
+    }
+
     public String getId() {
         return id;
     }
@@ -71,9 +80,6 @@ public class Expenses {
 
     public void clearBudget() {
         setBudget(BigDecimal.ZERO);
-    }
-
-    public Expenses() {
     }
 
     public void setApartmentLeasing(BigDecimal apartmentLeasing) {
